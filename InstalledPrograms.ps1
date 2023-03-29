@@ -1,0 +1,1 @@
+Get-Package | Select-Object Name, Version  | Format-Table -Wrap -Autosize > programs.txt
