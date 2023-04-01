@@ -292,7 +292,6 @@ def FindChocoPackage(programs, unattended=False):
 
             bar()
 
-
 def PackageSelection(program):
     loop = True
     if not program.options:
@@ -567,16 +566,6 @@ def ReviewPackages(programs):
         if not any(verify) and exitFlag:
             loop1 = False
 
-        
-                
-
-
-
-            
-
-
-    
-
 def ReadPrograms():
     programs = []   #Program objects
     lines = []
@@ -608,7 +597,14 @@ def ReadPrograms():
     return(programs)
 
 def InstallPackages(programs):
-    pass
+    with alive_bar(len(programs)) as bar:
+        for program in programs:
+            if program.install and not program.review:                
+                if program.package != '':
+                    args = "choco install " + program.package + " -y"
+                    subprocess.run(args)
+                    program.installed = True
+                    
 
 def main():
     
