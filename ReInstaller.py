@@ -1,6 +1,7 @@
 import os
 import subprocess
 import re
+import csv
 
 from alive_progress import alive_bar
 
@@ -37,9 +38,42 @@ class Program:
         self.review = False
         self.options = {}
 
-def GatherPrograms():
+def GatherPrograms(filepath):
     args = "powershell.exe -ExecutionPolicy Bypass -File .\InstalledPrograms.ps1"
-    subprocess.run(args)
+    output = subprocess.run(args, stdout=subprocess.PIPE, universal_newlines=True).stdout.split('\n')
+
+def ReadStoredPackages(programs):
+    alreadyStored = []
+
+    #Gather items already stored
+    with open('PackageReference.csv') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            alreadyStored.append(row)
+
+    return(alreadyStored)
+
+def StorePackages(programs):
+    fields = ['Name', 'Version', 'Package']
+    toBeStored = []
+    alreadyStored = []
+    #Generate list of items to be stored
+    for program in programs:
+        if program.install and not program.review:
+            toBeStored.append([program.name,program.version,program.package])
+    
+    alreadyStored = ReadStoredPackages(programs)
+
+
+
+
+    with open('PackageReference.csv', 'w') as file:
+        file.write("Name,Version,Package\n")
+        for program in programs:
+            if program.install and not program.review:
+                file.write(program.name + ',' + program.version + ',' + program.package + '\n')
+
+
 
 def DetermineType(file):
     with open(file, "rb") as file:
@@ -87,10 +121,6 @@ def ReadFile(file):
         f = open(file, 'r', encoding='UTF-32 BE')
 
     return(f.readlines())
-
-def StorePackages(programs):
-    pass
-    #Store package name for future use, rather than 
 
 def GetPackageInfo(program):
     if program.package:
@@ -346,6 +376,7 @@ def PrintDetails(program):
     print("Review: " + str(program.review))
     print("Packages Found: " + str(len(program.options)))
 
+#Menu for modifying a program
 def ModifyPackage(program):
     loop = True
     while loop == True:
@@ -384,7 +415,8 @@ def ModifyPackage(program):
             loop = True
             systemPause()
 
-def EditProgram(programs):
+#Print all programs and gives user the option to select a program to modify
+def ProgramSelection(programs):
     
     loop = True
     while loop == True:
@@ -415,157 +447,119 @@ def EditProgram(programs):
             systemPause()
             loop = True
 
+#Review all packages once all information has automatically been gathered.
 def ReviewPackages(programs):
-    loop1 = True
-    while loop1 == True:
+    systemClear()
+
+    install = False
+    approve = False
+    review = False
+    ignore = False
+    exitFlag = False
+
+    print()
+    print("==================================================")
+    for i, program in enumerate(programs):
+        if not program.review and program.install:
+            print(str(i) + ".  " + program.name + "    -   " + program.package + "  -   " + program.source)
+            install = True
+    if not install:
+        print("NONE")
+
+    print()
+    print("Packages listed above WILL be installed.")
+
+    #Only approval needed
+    print()
+    print("==================================================")
+    print("Package below need to be approved before install:")
+    print()
+    for i, program in enumerate(programs):
+        if program.review and program.package:
+            print(str(i) + ".  " + program.name + "    -   " + program.package + "  -   " + program.source)
+            approve = True
+    if not approve:
+        print("NONE")
+    
+    #Package Selection Needed
+    print()
+    print("==================================================")
+    print("Packages below must have a suitable package selected:")
+    print()
+    for i, program in enumerate(programs):
+        if program.review and not program.package:
+            print(str(i) + ".  " + program.name + " - " + program.version)
+            review = True
+    if not review:
+        print("NONE")
+
+    #Will not be installed for various reasons
+    print()
+    print("==================================================")
+    print("Packages below will not be installed: ")
+    print()
+    for i, program in enumerate(programs):
+        if not program.review and not program.install:
+            print(str(i) + ".  " + program.name + " - " + program.version)
+            ignore = True
+    if not ignore:
+        print("NONE")
+
+    if approve:
+        while loop2:
+            selection = input("Approve packages individually? y/[n]: ")
+            try:
+                if selection.lower == 'n' or selection.lower == '':
+                    for program in programs:
+                        if program.package and program.review:
+                            program.install = True
+                            
+                elif selection.lower == 'y':
+                    for program in programs:
+                        ModifyPackage(program)
+                continue
+                loop2 = False
+
+            except:
+                loop2 = True
+
+
+    if review:
         systemClear()
-
-        install = False
-        approve = False
-        review = False
-        ignore = False
-        exitFlag = False
-
-        print()
-        print("==================================================")
-        for i, program in enumerate(programs):
-            if not program.review and program.install:
-                print(str(i) + ".  " + program.name + "    -   " + program.package + "  -   " + program.source)
-                install = True
-        if not install:
-            print("NONE")
-
-        print()
-        print("Packages listed above WILL be installed.")
-
-        #Only approval needed
-        print()
-        print("==================================================")
-        print("Package below need to be approved before install:")
-        print()
-        for i, program in enumerate(programs):
-            if program.review and program.package:
-                print(str(i) + ".  " + program.name + "    -   " + program.package + "  -   " + program.source)
-                approve = True
-        if not approve:
-            print("NONE")
-        
-        #Package Selection Needed
-        print()
-        print("==================================================")
-        print("Packages below must have a suitable package selected:")
-        print()
-        for i, program in enumerate(programs):
-            if program.review and not program.package:
-                print(str(i) + ".  " + program.name + " - " + program.version)
-                review = True
-        if not review:
-            print("NONE")
-
-        #Will not be installed for various reasons
-        print()
-        print("==================================================")
-        print("Packages below will not be installed: ")
-        print()
-        for i, program in enumerate(programs):
-            if not program.review and not program.install:
-                print(str(i) + ".  " + program.name + " - " + program.version)
-                ignore = True
-        if not ignore:
-            print("NONE")
-
-        print()
-
-        if not approve and not review:
-            print()
-            print("Main Menu:")
-            print("0. Exit")
-            print("1. Install all programs")
-            print("2. Edit a program")
-
-            selection = input("What would you like to do?: ")
-
-        else:
-            systemPause()
-
-        try:
-            selection = int(selection)
-            if selection == 0:
-                exitFlag = True
-            
-            elif selection == 1:
-                InstallPackages(programs)
-
-            elif selection == 2:
-                EditProgram(programs)
-
-            else:
-                exitFlag = False
-
-        except:
-            exitFlag = False
-            systemClear()
-            print("The response you have given is invalid, please try again.")
-
-        if approve:
-            while loop2:
-                selection = input("Approve packages individually? y/[n]: ")
-                try:
-                    if selection.lower == 'n' or selection.lower == '':
-                        for program in programs:
-                            if program.package and program.review:
-                                program.install = True
-                                
-                    elif selection.lower == 'y':
-                        for program in programs:
-                            ModifyPackage(program)
-                    continue
-                    loop2 = False
-
-                except:
-                    loop2 = True
-
-
-        if review:
-            systemClear()
-            for program in programs:
-                if program.review and program.package:
-                    loop = True
-                    while loop == True:
-                        print(program.name + " (" + program.version + ")")
-                        print("The above program will be installed with the following package: program.package" + " (" + program.source + ")")
-                        print()
-                        selection = input("Do you approve this?(y - Install, n - Don't Install, q - Modify Package)[n]")
-                        try:
-                            if selection == '' or selection.lower == 'n':
-                                program.install = False
-                                program.review = False
-                                loop = False
-
-                            elif selection.lower == 'y':
-                                program.install = True
-                                program.review = False
-                                loop = False
-
-                            elif selection.lower == 'q':
-                                ModifyPackage(program)
-                                loop = False
-                        except:
-                            systemClear()
-                            print("The option you have entered is invalid, please try again.")
-                            loop = True
-                            systemPause()
-
-                elif program.review and not program.package:
-                    ModifyPackage(program)
-
-        verify = []
         for program in programs:
-            verify.append(program.review)
+            if program.review and program.package:
+                loop = True
+                while loop == True:
+                    print(program.name + " (" + program.version + ")")
+                    print("The above program will be installed with the following package: program.package" + " (" + program.source + ")")
+                    print()
+                    selection = input("Do you approve this?(y - Install, n - Don't Install, q - Modify Package)[n]")
+                    try:
+                        if selection == '' or selection.lower == 'n':
+                            program.install = False
+                            program.review = False
+                            loop = False
 
-        if not any(verify) and exitFlag:
-            loop1 = False
+                        elif selection.lower == 'y':
+                            program.install = True
+                            program.review = False
+                            loop = False
 
+                        elif selection.lower == 'q':
+                            ModifyPackage(program)
+                            loop = False
+                    except:
+                        systemClear()
+                        print("The option you have entered is invalid, please try again.")
+                        loop = True
+                        systemPause()
+
+            elif program.review and not program.package:
+                ModifyPackage(program)
+
+    return(approve, review)
+
+#Read programs file generated by InstallPrograms.ps1
 def ReadPrograms():
     programs = []   #Program objects
     lines = []
@@ -604,10 +598,11 @@ def InstallPackages(programs):
                     args = "choco install " + program.package + " -y"
                     subprocess.run(args)
                     program.installed = True
-                    
+            bar()
 
 def main():
-    
+    # print(os.getcwd())
+
     if os.path.exists(programsFilePath):
         response = input("Would you like to start over?")
         if response.lower()=='y':
@@ -619,16 +614,47 @@ def main():
 
     FindChocoPackage(programs, True)
 
-    ReviewPackages(programs)
+    mainLoop = True
+    while mainLoop:
+        result = ReviewPackages(programs)
+        print()
 
-    InstallPackages(programs)
-    
-    os.system("PAUSE")
+        if not result[0] and not result[1]:
+            print()
+            print("Main Menu:")
+            print("0. Exit")
+            print("1. Install all programs")
+            print("2. Edit a program")
+
+            selection = input("What would you like to do?: ")
+
+        else:
+            systemPause()
+
+        try:
+            selection = int(selection)
+            if selection == 0:
+                mainLoop = False
+
+            elif selection == 1:
+                InstallPackages(programs)
+                mainLoop = True
+
+            elif selection == 2:
+                ProgramSelection(programs)
+                mainLoop = True
+
+        except:
+            systemClear()
+            print("The response you have given is invalid, please try again.")
+
+        InstallPackages(programs)
+        
+        os.system("PAUSE")
 
 if __name__ == "__main__":
     main()
 
-    #When searching choco, search one word at a time until one result shows
     #Review all installed programs and remove the ones already installed
     #Check where chocolatey is getting it's files.
     #Figure out how to update chocolatey package checksum
