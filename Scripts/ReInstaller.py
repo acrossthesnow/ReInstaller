@@ -3,6 +3,7 @@ import subprocess
 import re
 import csv
 from datetime import datetime
+import glob
 
 from alive_progress import alive_bar
 
@@ -40,8 +41,14 @@ class Program:
         self.review = True
         self.options = {}
         self.source = ''
+        self.approved = False
 
-def GatherPrograms():
+def NewestFile(path):
+    files = os.listdir(path)
+    paths = [os.path.join(path, basename) for basename in files]
+    return max(paths, key=os.path.getctime)
+
+def GatherPrograms(mostRecent = False):
     args = "powershell.exe -ExecutionPolicy Bypass -File Scripts\InstalledPrograms.ps1"
     output = subprocess.run(args, stdout=subprocess.PIPE, universal_newlines=True).stdout
     if not os.path.exists(programsFolder):
@@ -147,9 +154,11 @@ def GetPackageInfo(program):
             program.source = source
         except:
             program.install = False
+            program.package = ''
 
 def FindChocoPackage(programs, unattended=False):
-    with alive_bar(len(programs)) as bar:
+    systemClear()
+    with alive_bar(title='Searching for packages', total=len(programs)) as bar:
         for i, program in enumerate(programs):
             output = subprocess.run("choco search " + program.name, stdout=subprocess.PIPE, universal_newlines=True)
             parted = program.name.split()
@@ -169,6 +178,9 @@ def FindChocoPackage(programs, unattended=False):
                                                
                         elif output.stdout.__contains__('1 packages found'):
                             program.package = output.stdout.split('\n')[1].split()[0]
+                            program.equivalent = True
+                            program.review = True
+                            program.install = False
                             GetPackageInfo(program)
                             break
 
@@ -214,7 +226,10 @@ def FindChocoPackage(programs, unattended=False):
                                     
                                     print()
                                     print("Program Name: " + program.name + "    Version: " + program.version)
-                                    selection = input("Which package would you like to install for this program?(0 - Don't Install, X - Exit Attended Mode):   ")
+                                    print()
+                                    print("0. Don't Install")
+                                    print("1. Exit Attended Mode")
+                                    selection = input("Which package would you like to install for this program?: ")
                                     if selection == '0':
                                         program.install = False
                                         program.equivalent = False
@@ -222,7 +237,7 @@ def FindChocoPackage(programs, unattended=False):
                                         loop = False
                                         bar()
 
-                                    elif selection.lower() == 'x':
+                                    elif selection == '1':
                                         unattended = True
                                         program.package = options[0].split()[0]
                                         program.review = True
@@ -235,6 +250,7 @@ def FindChocoPackage(programs, unattended=False):
                                         try:
                                             program.package = options[int(selection)-1].split()[0]
                                             GetPackageInfo(program)
+                                            program.approved = True
                                             loop = False
                                             bar()
                                         except:
@@ -297,7 +313,11 @@ def FindChocoPackage(programs, unattended=False):
                             
                             print()
                             print("Program Name: " + program.name + "    Version: " + program.version)
-                            selection = input("Which package would you like to install for this program?(0 - Don't Install, X - Exit Attended Mode):   ")
+                            print()
+                            print("0. Don't Install")
+                            print("1. Exit Attended Mode")
+                            selection = input("Which package would you like to install for this program?: ")
+                            
                             if selection == '0':
                                 program.install = False
                                 program.equivalent = False
@@ -306,7 +326,7 @@ def FindChocoPackage(programs, unattended=False):
                                 bar()
                                 
 
-                            elif selection.lower() == 'x':
+                            elif selection.lower() == '1':
                                 unattended = True
                                 program.package = options[0].split()[0]
                                 program.review = True
@@ -318,6 +338,7 @@ def FindChocoPackage(programs, unattended=False):
                                 try:
                                     program.package = options[int(selection)-1].split()[0]
                                     GetPackageInfo(program)
+                                    program.approved
                                     loop = False
                                     bar()
                                     break
@@ -346,7 +367,7 @@ def PackageSelection(program):
 
             print()
             print("Program Name: " + program.name + "    Version: " + program.version)
-            selection = input("Which package would you like to install for this program?(0 - Don't Install):   ")
+            selection = input("Which package would you like to install for this program?(0 - No package):   ")
             try:
                 selection = int(selection)
                 loop = False
@@ -355,6 +376,7 @@ def PackageSelection(program):
                     program.install = False
                     program.review = False
                     program.equivalent = False
+                    program.package = ''
                     break
                 else:
                     systemClear()
@@ -366,6 +388,7 @@ def PackageSelection(program):
                 program.install = False
                 program.review = False
                 program.equivalent = False
+                program.package = ''
             
             else:
                 for i, package in enumerate(program.options):
@@ -411,6 +434,7 @@ def ModifyPackage(program):
                 program.review = False
             
             else:
+                systemClear()
                 print("There is no package selected. Please select one.")
                 systemPause()
                 PackageSelection(program)
@@ -456,14 +480,13 @@ def ProgramSelection(programs):
             loop = True
 
 #Review all packages once all information has automatically been gathered.
-def ReviewPackages(programs):
+def PrintPackages(programs):
     systemClear()
 
     install = False
     approve = False
     review = False
     ignore = False
-    exitFlag = False
 
     print()
     print("==================================================")
@@ -483,7 +506,7 @@ def ReviewPackages(programs):
     print("Package below need to be approved before install:")
     print()
     for i, program in enumerate(programs):
-        if program.review and program.package:
+        if not program.approved and program.package != '':
             print(str(i) + ".  " + program.name + "    -   " + program.package + "  -   " + program.source)
             approve = True
     if not approve:
@@ -513,71 +536,130 @@ def ReviewPackages(programs):
     if not ignore:
         print("NONE")
 
+    systemPause()
+    return(approve, review)
+
+def ApprovePackages(programs):
     #Has a package, just needs to be reviewed
-    if approve:
-        print()
-        print("We will start reviewing packages now...")
-        systemPause()
+    systemClear()
+    print("The following programs need to be approved.")
+    systemPause()
+    length = 0
+    for program in programs:
+        if program.review and program.package:
+            length = length + 1
+
+    with alive_bar(title='Approving Packages', total=length) as bar:
         for program in programs:
             systemClear()
             if program.review and program.package:
-                PrintDetails(program)
-                print()
-                selection = input("Install? ([y]/n): ")
-                if selection == '' or selection.lower == 'y':
-                    program.review = False
-                    program.install = True
+                with bar.pause():
+                    PrintDetails(program)
+                    print()
+                    print("0. Package incorrect - Disapprove")
+                    print("1. Package is correct - Approve")
+                    print("2. Select a different one.")
+                    selection = input("Please select one [0]: ")
+                    if selection == '' or selection.lower == '0':
+                        program.review = False
+                        program.install = False
+                        program.approved = False
+                        
 
-                else:
-                    program.review = False
-                    program.install = False
+                    elif selection == '2':
+                        PackageSelection(program)
+
+                    else:
+                        program.review = False
+                        program.install = True
+                        program.approved = True
+
+                    bar()
+                
+                    
+
+            
                 
                 
-
+def ReviewPackages(programs):
     #Doesn't have a package, but has options
-    if review:
-        systemClear()
+    systemClear()
+    print("The following programs need a package to be selected.")
+    systemPause()
+    length = 0
+    for program in programs:
+        if program.review and program.package:
+            length = length + 1
+    with alive_bar(title='Reviewing Packages', total=length) as bar:
         for program in programs:
-            if program.review and program.package:
-                loop = True
-                while loop == True:
-                    systemClear()
-                    print(program.name + " (" + program.version + ")")
-                    print()
-                    print("The above program will be installed with the following package: " + program.package + " (" + program.source + ")")
-                    print()
-                    selection = input("Do you approve this?(y - Install, n - Don't Install, q - Modify Package)[n]")
-                    try:
-                        if selection == '' or selection.lower == 'n':
-                            program.install = False
-                            program.review = False
-                            loop = False
-
-                        elif selection.lower == 'y':
-                            program.install = True
-                            program.review = False
-                            loop = False
-
-                        elif selection.lower == 'q':
-                            ModifyPackage(program)
-                            loop = False
-                    except:
+            with bar.pause():
+                if program.review and program.package:
+                    loop = True
+                    while loop == True:
                         systemClear()
-                        print("The option you have entered is invalid, please try again.")
-                        loop = True
-                        systemPause()
+                        print(program.name + " (" + program.version + ")")
+                        print()
+                        print("The above program will be installed with the following package: " + program.package + " (" + program.source + ")")
+                        print()
+                        print("0. Don't Install")
+                        print("1. Install")
+                        print("2. Modify Package")
+                        selection = input("Do you approve this?[0]")
+                        try:
+                            if selection == '' or selection == '0':
+                                program.install = False
+                                program.review = False
+                                loop = False
 
-            elif program.review and not program.package:
-                ModifyPackage(program)
+                            elif selection == '1':
+                                program.install = True
+                                program.review = False
+                                loop = False
 
-    return(approve, review)
+                            elif selection == '2':
+                                ModifyPackage(program)
+                                loop = False
+                        except:
+                            systemClear()
+                            print("The option you have entered is invalid, please try again.")
+                            loop = True
+                            systemPause()
+
+                elif program.review and not program.package:
+                    PackageSelection(program)
+
+            bar()
 
 #Read programs file generated by InstallPrograms.ps1
-def ReadPrograms():
+def ReadPrograms(mostRecent = True):
     programs = []   #Program objects
     lines = []
+    
+    if mostRecent == True:
+        folderPath = programsFolder
+        fileType = r'\*.txt'
+        files = glob.glob(folderPath + fileType)
+        maxFile = max(files, key=os.path.getctime)
 
-    file = ReadFile(programsPath)
+        file = ReadFile(maxFile)
+
+    else:    
+        loop = True
+        while loop == True:
+            systemClear()
+            files = os.listdir(programsFolder)
+            for i, file in enumerate(files):
+                print(str(i+1) + ". " + file)
+
+            try:
+                selection = int(input("Please selection a file to read from: "))-1
+                file = ReadFile(programsFolder + files[selection])
+                loop = False
+            except:
+                systemClear()
+                print("You have entered an invalid option. Please try again.")
+                systemPause()
+                loop = True
 
     file.pop(0)
     file.pop(0)
@@ -604,7 +686,15 @@ def ReadPrograms():
     return(programs)
 
 def InstallPackages(programs):
-    with alive_bar(len(programs)) as bar:
+    packages = []
+    length = 0
+    for program in programs:
+        if program.install:
+            if not packages.__contains__(program.package):
+                packages.append(program.package)
+                
+            length = length + 1
+    with alive_bar(title='Installing Packages', total=length) as bar:
         for program in programs:
             if program.install and not program.review:                
                 if program.package != '':
@@ -615,21 +705,36 @@ def InstallPackages(programs):
 
 def main():
     # print(os.getcwd())
-
-    if os.path.exists(programsPath):
-        response = input("Would you like to start over?")
+    systemClear()
+    files = os.listdir(programsFolder)
+    if files:
+        response = input("Would you like to start over? y/[n]: ")
         if response.lower()=='y':
             GatherPrograms()
+            programs = ReadPrograms(mostRecent=True)
+
+        else:
+            systemClear()
+            print("0. Use most recent list of programs generated.")
+            print("1. Select a list of programs.")
+            response = input("What would you like to do? [0]: ")
+            if response == '1':
+                programs = ReadPrograms(mostRecent=False)
+            
+            else:
+                programs = ReadPrograms(mostRecent=True)
+
+
     else:
         GatherPrograms()
+        programs = ReadPrograms(mostRecent=True)
     
-    programs = ReadPrograms()
 
-    FindChocoPackage(programs, True)
+    FindChocoPackage(programs, unattended = True)
 
     mainLoop = True
     while mainLoop:
-        result = ReviewPackages(programs)
+        result = PrintPackages(programs)
         print()
 
         if not result[0] and not result[1]:
@@ -641,29 +746,28 @@ def main():
 
             selection = input("What would you like to do?: ")
 
-        else:
-            systemPause()
+            try:
+                selection = int(selection)
+                if selection == 0:
+                    mainLoop = False
 
-        try:
-            selection = int(selection)
-            if selection == 0:
-                mainLoop = False
+                elif selection == 1:
+                    InstallPackages(programs)
+                    mainLoop = True
 
-            elif selection == 1:
-                InstallPackages(programs)
-                mainLoop = True
+                elif selection == 2:
+                    ProgramSelection(programs)
+                    mainLoop = True
 
-            elif selection == 2:
-                ProgramSelection(programs)
-                mainLoop = True
-
-        except:
-            systemClear()
-            print("The response you have given is invalid, please try again.")
-
-        InstallPackages(programs)
+            except:
+                systemClear()
+                print("The response you have given is invalid, please try again.")
         
-        os.system("PAUSE")
+        if result[0]:
+            ApprovePackages(programs)
+
+        if result[1]:
+            ReviewPackages(programs)
 
 if __name__ == "__main__":
     main()
