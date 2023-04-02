@@ -10,7 +10,8 @@ from alive_progress import alive_bar
 powershellPath = "powershell.exe"
 cwd = os.getcwd()
 programsFile = str(datetime.now().strftime("%Y%b%d_%H%M%S") + "-programs.txt")
-programsFilePath = cwd+"\\Program History\\"+programsFile
+programsFolder = cwd+"\\Program History\\"
+programsPath = programsFolder + programsFile
 programsScript = "InstalledPrograms.ps1"
 notFound = []
 
@@ -34,15 +35,19 @@ class Program:
         self.name = name
         self.version = version
         self.package = ''
-        self.install = True
-        self.equivalent = True
-        self.review = False
+        self.install = False
+        self.equivalent = False
+        self.review = True
         self.options = {}
+        self.source = ''
 
-def GatherPrograms(filepath):
+def GatherPrograms():
     args = "powershell.exe -ExecutionPolicy Bypass -File .\InstalledPrograms.ps1"
     output = subprocess.run(args, stdout=subprocess.PIPE, universal_newlines=True).stdout
-    with open(filepath, 'w') as file:
+    if not os.path.exists(programsFolder):
+        os.makedirs(programsFolder)
+
+    with open(programsPath, 'w') as file:
         file.write(output)
 
 def ReadStoredPackages(programs):
@@ -509,22 +514,25 @@ def ReviewPackages(programs):
         print("NONE")
 
     if approve:
-        while loop2:
+        loop = True
+        while loop:
             selection = input("Approve packages individually? y/[n]: ")
             try:
-                if selection.lower == 'n' or selection.lower == '':
+                if selection == '' or selection.lower == 'n':
                     for program in programs:
-                        if program.package and program.review:
+                        if program.package:
                             program.install = True
+                            program.review = True
                             
                 elif selection.lower == 'y':
                     for program in programs:
                         ModifyPackage(program)
+                
+                loop = False
                 continue
-                loop2 = False
 
             except:
-                loop2 = True
+                loop = True
 
 
     if review:
@@ -567,7 +575,7 @@ def ReadPrograms():
     programs = []   #Program objects
     lines = []
 
-    file = ReadFile(programsFile)
+    file = ReadFile(programsPath)
 
     file.pop(0)
     file.pop(0)
@@ -606,7 +614,7 @@ def InstallPackages(programs):
 def main():
     # print(os.getcwd())
 
-    if os.path.exists(programsFilePath):
+    if os.path.exists(programsPath):
         response = input("Would you like to start over?")
         if response.lower()=='y':
             GatherPrograms()
