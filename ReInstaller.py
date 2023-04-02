@@ -2,14 +2,15 @@ import os
 import subprocess
 import re
 import csv
+from datetime import datetime
 
 from alive_progress import alive_bar
 
 #%SystemRoot%\system32\WindowsPowerShell\v1.0\
 powershellPath = "powershell.exe"
 cwd = os.getcwd()
-programsFile = "programs.txt"
-programsFilePath = cwd+"\\"+programsFile
+programsFile = str(datetime.now().strftime("%Y%b%d_%H%M%S") + "-programs.txt")
+programsFilePath = cwd+"\\Program History\\"+programsFile
 programsScript = "InstalledPrograms.ps1"
 notFound = []
 
@@ -40,7 +41,9 @@ class Program:
 
 def GatherPrograms(filepath):
     args = "powershell.exe -ExecutionPolicy Bypass -File .\InstalledPrograms.ps1"
-    output = subprocess.run(args, stdout=subprocess.PIPE, universal_newlines=True).stdout.split('\n')
+    output = subprocess.run(args, stdout=subprocess.PIPE, universal_newlines=True).stdout
+    with open(filepath, 'w') as file:
+        file.write(output)
 
 def ReadStoredPackages(programs):
     alreadyStored = []
