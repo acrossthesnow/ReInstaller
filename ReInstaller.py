@@ -513,36 +513,38 @@ def ReviewPackages(programs):
     if not ignore:
         print("NONE")
 
+    #Has a package, just needs to be reviewed
     if approve:
-        loop = True
-        while loop:
-            selection = input("Approve packages individually? y/[n]: ")
-            try:
-                if selection == '' or selection.lower == 'n':
-                    for program in programs:
-                        if program.package:
-                            program.install = True
-                            program.review = True
-                            
-                elif selection.lower == 'y':
-                    for program in programs:
-                        ModifyPackage(program)
+        print()
+        print("We will start reviewing packages now...")
+        systemPause()
+        for program in programs:
+            systemClear()
+            if program.review and program.package:
+                PrintDetails(program)
+                print()
+                selection = input("Install? ([y]/n): ")
+                if selection == '' or selection.lower == 'y':
+                    program.review = False
+                    program.install = True
+
+                else:
+                    program.review = False
+                    program.install = False
                 
-                loop = False
-                continue
+                
 
-            except:
-                loop = True
-
-
+    #Doesn't have a package, but has options
     if review:
         systemClear()
         for program in programs:
             if program.review and program.package:
                 loop = True
                 while loop == True:
+                    systemClear()
                     print(program.name + " (" + program.version + ")")
-                    print("The above program will be installed with the following package: program.package" + " (" + program.source + ")")
+                    print()
+                    print("The above program will be installed with the following package: " + program.package + " (" + program.source + ")")
                     print()
                     selection = input("Do you approve this?(y - Install, n - Don't Install, q - Modify Package)[n]")
                     try:
