@@ -12,7 +12,7 @@ cwd = os.getcwd()
 programsFile = str(datetime.now().strftime("%Y%b%d_%H%M%S") + "-programs.txt")
 programsFolder = cwd+"\\Program History\\"
 programsPath = programsFolder + programsFile
-programsScript = "InstalledPrograms.ps1"
+programsScript = "Scripts\InstalledPrograms.ps1"
 notFound = []
 
 def systemClear():
@@ -42,7 +42,7 @@ class Program:
         self.source = ''
 
 def GatherPrograms():
-    args = "powershell.exe -ExecutionPolicy Bypass -File .\InstalledPrograms.ps1"
+    args = "powershell.exe -ExecutionPolicy Bypass -File Scripts\InstalledPrograms.ps1"
     output = subprocess.run(args, stdout=subprocess.PIPE, universal_newlines=True).stdout
     if not os.path.exists(programsFolder):
         os.makedirs(programsFolder)

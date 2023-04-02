@@ -26,5 +26,5 @@ pause
 cls
 pushd
 cd %TEMP%\ReInstaller\
-start "ReInstaller" /wait cmd /k "python %TEMP%\ReInstaller\ReInstaller.py"
+start "ReInstaller" /wait cmd /k "python %TEMP%\ReInstaller\Scripts\ReInstaller.py"
 start "Clean-up" cmd /c "rmdir %TEMP%\ReInstaller\ /s /q"
