@@ -4,18 +4,36 @@ import re
 import csv
 from datetime import datetime
 import glob
-
+import argparse
 from alive_progress import alive_bar
 
-#%SystemRoot%\system32\WindowsPowerShell\v1.0\
+#Global Variables
+parser = argparse.ArgumentParser()
+parser.add_argument('-e', '-ScriptExecuted', type=str, required=False)
+args = parser.parse_args()
+try:
+    if args.e:
+        cwd = os.getenv("TEMP")
+    else:
+        cwd = os.getcwd()
+
+except:
+    cwd = os.getcwd()
+
 powershellPath = "powershell.exe"
-cwd = os.getcwd()
 programsFile = str(datetime.now().strftime("%Y%b%d_%H%M%S") + "-programs.txt")
-programsFolder = cwd+"\\Program History\\"
-programsPath = programsFolder + programsFile
-programsScript = "Scripts\InstalledPrograms.ps1"
+historyFolder = cwd + "\\Data\\Program History\\"
+programsPath = historyFolder + programsFile
+scriptDirectory = '..\\Scripts\\'
+programsScript = scriptDirectory + "InstalledPrograms.ps1"
+dataDirectory = '\\Data\\'
+packageReference = 'PackageReference.csv'
+referencePath = cwd + dataDirectory + packageReference
 notFound = []
 storedPackages = []
+
+print(os.listdir(referencePath))
+
 
 def systemClear():
     import sys
@@ -118,7 +136,7 @@ def GatherPrograms(mostRecent = False):
 
 #Read all packages and their information from PackageReference.csv
 def ReadPackageReference():
-    with open('PackageReference.csv') as file:
+    with open(referencePath) as file:
         reader = csv.DictReader(file)
         for row in reader:
             storedPackages.append(row)
@@ -141,7 +159,7 @@ def StorePackageReference(programs):
         if package['Status'] != '0':
             toBeStored.append(package)
 
-    with open('PackageReference.csv', 'w') as file:
+    with open(referencePath, 'w') as file:
         writer = csv.writer(file)
         writer.writerow(fields)
         for program in toBeStored:
@@ -823,17 +841,15 @@ def InstallPackages(programs):
     packages = []
     length = 0
     for program in programs:
-        if program.install:
+        if program.IsInstall():
             if not packages.__contains__(program.package):
                 packages.append(program.package)
                 
             length = length + 1
     with alive_bar(title='Installing Packages', total=length) as bar:
-        for program in programs:
-            if program.IsInstall():               
-                args = "choco install " + program.package + " -y"
-                subprocess.run(args)
-                program.installed = True
+        for package in packages:               
+            args = "choco install " + package + " -y"
+            output = subprocess.run(args, stdout=subprocess.PIPE, universal_newlines=True)
             bar()
 
 def main():
@@ -900,7 +916,24 @@ def main():
                         reviewLoop = True
 
             elif selection == '2':
-                programs = ReadPrograms(mostRecent=True)
+
+                #GatherPrograms()
+                files = os.listdir(programsFolder)
+
+                systemClear()
+                print("\n===================================================================")
+                for file in files:
+                    
+                    print(file)
+                print("\nAbove are the times you've already gathered applications.")
+                print("0. Use most recent list of programs generated.")
+                print("1. Select a list of programs.")
+                response = input("What would you like to do? [0]: ")
+                if response == '1':
+                    programs = ReadPrograms(mostRecent=False)
+                
+                else:
+                    programs = ReadPrograms(mostRecent=True)
 
                 FindChocoPackage(programs, attended = attended)
 
@@ -997,14 +1030,7 @@ def main():
             systemPause()
             mainLoop = True
     
-
-
-    
 if __name__ == "__main__":
     main()
 
-    #Review all installed programs and remove the ones already installed
-    #Check where chocolatey is getting it's files.
     #Figure out how to update chocolatey package checksum
-    #Export application name with package name for easy lookup
-    #Add history folder for previous applications
