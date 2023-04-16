@@ -9,30 +9,34 @@ from alive_progress import alive_bar
 
 #Global Variables
 parser = argparse.ArgumentParser()
-parser.add_argument('-e', '-ScriptExecuted', type=str, required=False)
+parser.add_argument('-e',action='store_true',required=False)
 args = parser.parse_args()
 try:
     if args.e:
         cwd = os.getenv("TEMP")
+        cwd = cwd  + '\\ReInstaller\\Scripts'
     else:
         cwd = os.getcwd()
-
+        cwd = cwd  + '\\Scripts'
 except:
     cwd = os.getcwd()
+    cwd = cwd  + '\\Scripts'
+
+# print(cwd)
+# os.system('PAUSE')
 
 powershellPath = "powershell.exe"
 programsFile = str(datetime.now().strftime("%Y%b%d_%H%M%S") + "-programs.txt")
-historyFolder = cwd + "\\Data\\Program History\\"
+historyFolder = cwd + "\..\\Data\\Program History\\"
 programsPath = historyFolder + programsFile
-scriptDirectory = '..\\Scripts\\'
+scriptDirectory = cwd + '\..\\Scripts\\'
 programsScript = scriptDirectory + "InstalledPrograms.ps1"
-dataDirectory = '\\Data\\'
+dataDirectory = cwd + '\..\\Data\\'
 packageReference = 'PackageReference.csv'
-referencePath = cwd + dataDirectory + packageReference
+referencePath = dataDirectory + packageReference
 notFound = []
 storedPackages = []
 
-print(os.listdir(referencePath))
 
 
 def systemClear():
@@ -128,8 +132,8 @@ def NewestFile(path):
 def GatherPrograms(mostRecent = False):
     args = "powershell.exe -ExecutionPolicy Bypass -File Scripts\InstalledPrograms.ps1"
     output = subprocess.run(args, stdout=subprocess.PIPE, universal_newlines=True).stdout
-    if not os.path.exists(programsFolder):
-        os.makedirs(programsFolder)
+    if not os.path.exists(historyFolder):
+        os.makedirs(historyFolder)
 
     with open(programsPath, 'w') as file:
         file.write(output)
@@ -244,8 +248,23 @@ def GetPackageInfo(program):
 
             program.source = source
 
-        except:
+        except UnicodeDecodeError:
             program.Approval()
+        
+
+
+def CleanOptions(output):
+    optionsList = []
+    options = output.split('\n')
+
+    for option in options:
+        if option.__contains__('[Approved]'):
+            optionsList.append(option)
+        if len(optionsList) == 26:
+            break
+       
+    return(optionsList)
+
             
 def FindChocoPackage(programs, attended=True, freshScan=False):
     systemClear()
@@ -261,14 +280,14 @@ def FindChocoPackage(programs, attended=True, freshScan=False):
                 output = subprocess.run("choco search " + program.name, stdout=subprocess.PIPE, universal_newlines=True)
                 parted = program.name.split()
                 if len(parted) > 1:
-                    if output.stdout.__contains__('0 packages found'):
+                    if output.stdout.__contains__('\\\n0 packages found'):
                         for i in range(0, len(parted)):
                             output = subprocess.run("choco search " + ' '.join(parted[0:(len(parted)-1-i)]), stdout=subprocess.PIPE, universal_newlines=True)
                             
-                            if output.stdout.__contains__('0 packages found') and (len(parted)-1-i) != 1:
+                            if output.stdout.__contains__('\\\n0 packages found') and (len(parted)-1-i) != 1:
                                 continue
                             
-                            elif output.stdout.__contains__('0 packages found'):
+                            elif output.stdout.__contains__('\\\n0 packages found'):
                                 program.Revoke()
                                 break
                                                 
@@ -278,35 +297,39 @@ def FindChocoPackage(programs, attended=True, freshScan=False):
                                 GetPackageInfo(program)
                                 break
 
-                            elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('0 packages found') and attended == False:
-                                options = output.stdout.split('\n')
-                                options.pop(0)
+                            elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('\\\n0 packages found') and attended == False:
+                                # options = output.stdout.split('\n')
+                                
+                                # options.pop(0)
 
-                                for x, option in enumerate(options):
-                                    if option.endswith('packages found.'):
-                                        d = len(options) - x
+                                # for x, option in enumerate(options):
+                                #     if option.endswith('packages found.'):
+                                #         d = len(options) - x
                                     
-                                for x in range(d):
-                                    options.pop(-1)
-                                for i, option in enumerate(options):
-                                    if i == 25:
-                                        break
-                                    program.options[option] = option.split()[0]
+                                # for x in range(d):
+                                #     options.pop(-1)
+                                # for i, option in enumerate(options):
+                                #     if i == 25:
+                                #         break
+                                #     program.options[option] = option.split()[0]
+                                program.options = CleanOptions(output.stdout)
 
                                 program.Selection()
                                 break
 
-                            elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('0 packages found') and attended == True:
+                            elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('\\\n0 packages found') and attended == True:
                                 with bar.pause():
-                                    options = output.stdout.split('\n')
-                                    options.pop(0)
+                                    # options = output.stdout.split('\n')
+                                    # options.pop(0)
 
-                                    for x, option in enumerate(options):
-                                        if option.endswith('packages found.'):
-                                            d = len(options) - x
+                                    # for x, option in enumerate(options):
+                                    #     if option.endswith('packages found.'):
+                                    #         d = len(options) - x
                                         
-                                    for x in range(d):
-                                        options.pop(-1)
+                                    # for x in range(d):
+                                    #     options.pop(-1)
+
+                                    options = CleanOptions(output.stdout)
 
                                     loop = True
                                     while loop == True:    
@@ -357,36 +380,39 @@ def FindChocoPackage(programs, attended=True, freshScan=False):
                         GetPackageInfo(program)
                         
 
-                    elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('0 packages found') and attended == False:
+                    elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('\\\n0 packages found') and attended == False:
                         
-                        options = output.stdout.split('\n')
-                        options.pop(0)
+                        # options = output.stdout.split('\n')
+                        # options.pop(0)
 
-                        for x, option in enumerate(options):
-                            if option.endswith('packages found.'):
-                                d = len(options) - x
+                        # for x, option in enumerate(options):
+                        #     if option.endswith('packages found.'):
+                        #         d = len(options) - x
                             
-                        for x in range(d):
-                            options.pop(-1)
-                        for i, option in enumerate(options):
-                            if i == 25:
-                                break
-                            program.options[option] = option.split()[0]
+                        # for x in range(d):
+                        #     options.pop(-1)
+                        # for i, option in enumerate(options):
+                        #     if i == 25:
+                        #         break
+                        #     program.options[option] = option.split()[0]
+                        
+                        program.options = CleanOptions(output.stdout)
 
                         program.Selection()
                         
 
-                    elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('0 packages found') and attended == True:
+                    elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('\\\n0 packages found') and attended == True:
                         with bar.pause():
-                            options = output.stdout.split('\n')
-                            options.pop(0)
+                            # options = output.stdout.split('\n')
+                            # options.pop(0)
 
-                            for x, option in enumerate(options):
-                                if option.endswith('packages found.'):
-                                    d = len(options) - x
+                            # for x, option in enumerate(options):
+                            #     if option.endswith('packages found.'):
+                            #         d = len(options) - x
                                 
-                            for x in range(d):
-                                options.pop(-1)
+                            # for x in range(d):
+                            #     options.pop(-1)
+                            options = CleanOptions(output.stdout)
 
                             loop = True
                             while loop == True:    
@@ -429,7 +455,7 @@ def FindChocoPackage(programs, attended=True, freshScan=False):
                                         loop = True
 
                 elif len(parted) == 1:
-                    if output.stdout.__contains__('0 packages found'):
+                    if output.stdout.__contains__('\\\n0 packages found'):
                         program.Revoke()
                         
                 
@@ -438,33 +464,35 @@ def FindChocoPackage(programs, attended=True, freshScan=False):
                         program.Approval()
                         GetPackageInfo(program)
 
-                    elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('0 packages found') and attended == False:
-                        options = output.stdout.split('\n')
-                        options.pop(0)
+                    elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('\\\n0 packages found') and attended == False:
+                        # options = output.stdout.split('\n')
+                        # options.pop(0)
 
-                        for x, option in enumerate(options):
-                            if option.endswith('packages found.'):
-                                d = len(options) - x
+                        # for x, option in enumerate(options):
+                        #     if option.endswith('packages found.'):
+                        #         d = len(options) - x
                             
-                        for x in range(d):
-                            options.pop(-1)
-                        for option in options:
-                            program.options[option] = option.split()[0]
+                        # for x in range(d):
+                        #     options.pop(-1)
+                        # for option in options:
+                        #     program.options[option] = option.split()[0]
+                        program.options = CleanOptions(output.stdout)
 
                         program.Selection()
 
 
-                    elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('0 packages found') and attended == True:
+                    elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('\\\n0 packages found') and attended == True:
                         with bar.pause():
-                            options = output.stdout.split('\n')
-                            options.pop(0)
+                            # options = output.stdout.split('\n')
+                            # options.pop(0)
 
-                            for x, option in enumerate(options):
-                                if option.endswith('packages found.'):
-                                    d = len(options) - x
+                            # for x, option in enumerate(options):
+                            #     if option.endswith('packages found.'):
+                            #         d = len(options) - x
                                 
-                            for x in range(d):
-                                options.pop(-1)
+                            # for x in range(d):
+                            #     options.pop(-1)
+                            options = CleanOptions(output.stdout)
 
                             loop = True
                             while loop == True:    
@@ -503,7 +531,6 @@ def FindChocoPackage(programs, attended=True, freshScan=False):
                                         program.Install()
                                         loop = False
                                         bar()
-                                        break
                                     except:
                                         systemClear()
                                         print("The number you have entered is not valid. Please try again.")
@@ -537,11 +564,14 @@ def PackageSelection(program):
 
                 else:
                     selection = int(selection)
-                    for i, package in enumerate(program.options):
-                        if selection - 1 == i:
-                            program.package = program.options[package]
-                            GetPackageInfo(program)
-                            program.Install()
+                    program.package = program.options[selection-1]
+                    GetPackageInfo(program)
+                    program.Install()
+                    # for i, package in enumerate(program.options):
+                    #     if selection - 1 == i:
+                    #         program.package = program.options[selection-1]
+                    #         GetPackageInfo(program)
+                    #         program.Install()
 
                 loop = False
             except:
@@ -607,21 +637,35 @@ def ProgramSelection(programs):
     loop = True
     while loop == True:
         systemClear()
-        print()
+        print("\n\nPrograms being installed")
         print("==================================================")
         for i, program in enumerate(programs):
-            if program.package != '':
-                print(str(i+1) + ". " + program.name + "    -   " + program.package + " -   " + program.source)
-            elif program.package == '' or program.package.isspace():
-                print(str(i+1) + ". " + program.name + "    -   " + "(No package selected)")
+            if program.IsInstall():
+                if program.package != '':
+                    print(str(i+1) + ". " + program.name + "    -   " + program.package + " -   " + program.source)
+                elif program.package == '' or program.package.isspace():
+                    print(str(i+1) + ". " + program.name + "    -   " + "(No package selected)")
+                else:
+                    print(str(i+1) + ". " + program.name)
+
+
+        print("\n\nPrograms not being installed:")
+        print("==================================================")
+        for i, program in enumerate(programs):
+            if not program.IsInstall():
+                if program.package != '':
+                    print(str(i+1) + ". " + program.name + "    -   " + program.package + " -   " + program.source)
+                elif program.package == '' or program.package.isspace():
+                    print(str(i+1) + ". " + program.name + "    -   " + "(No package selected)")
+                else:
+                    print(str(i+1) + ". " + program.name)
                 
         selection = input("Which program would you like to edit?(0 - Go back): ")
         try:
-            selection = int(selection)
             if selection == '0' or selection.isspace():
                 loop = False
             elif int(selection) in range(1, len(programs)+1):
-                ModifyPackage(programs[selection-1])
+                ModifyPackage(programs[int(selection)-1])
                 loop = True
             else:
                 print("The response you've given is invalid, please try again.")
@@ -647,7 +691,7 @@ def PrintPackages(programs):
     print("==================================================")
     for i, program in enumerate(programs):
         if program.IsInstall():
-            print(str(i) + ".  " + program.name + "    -   " + program.package + "  -   " + program.source)
+            print(str(i+1) + ".  " + program.name + "    -   " + program.package + "  -   " + program.source)
             install = True
     if not install:
         print("NONE")
@@ -662,7 +706,7 @@ def PrintPackages(programs):
     print()
     for i, program in enumerate(programs):
         if program.IsApproval():
-            print(str(i) + ".  " + program.name + "    -   " + program.package + "  -   " + program.source)
+            print(str(i+1) + ".  " + program.name + "    -   " + program.package + "  -   " + program.source)
             approve = True
     if not approve:
         print("NONE")
@@ -674,7 +718,7 @@ def PrintPackages(programs):
     print()
     for i, program in enumerate(programs):
         if program.IsSelection():
-            print(str(i) + ".  " + program.name + " - " + program.version)
+            print(str(i+1) + ".  " + program.name + " - " + program.version)
             review = True
     if not review:
         print("NONE")
@@ -686,7 +730,7 @@ def PrintPackages(programs):
     print()
     for i, program in enumerate(programs):
         if program.IsRevoked():
-            print(str(i) + ".  " + program.name + " - " + program.version)
+            print(str(i+1) + ".  " + program.name + " - " + program.version)
             ignore = True
     if not ignore:
         print("NONE")
@@ -787,7 +831,7 @@ def ReadPrograms(mostRecent = True):
     lines = []
     
     if mostRecent == True:
-        folderPath = programsFolder
+        folderPath = historyFolder
         fileType = r'\*.txt'
         files = glob.glob(folderPath + fileType)
         maxFile = max(files, key=os.path.getctime)
@@ -798,13 +842,13 @@ def ReadPrograms(mostRecent = True):
         loop = True
         while loop == True:
             systemClear()
-            files = os.listdir(programsFolder)
+            files = os.listdir(historyFolder)
             for i, file in enumerate(files):
                 print(str(i+1) + ". " + file)
 
             try:
                 selection = int(input("Please selection a file to read from: "))-1
-                file = ReadFile(programsFolder + files[selection])
+                file = ReadFile(historyFolder + files[selection])
                 loop = False
             except:
                 systemClear()
@@ -870,7 +914,7 @@ def main():
             selection = input("What would you like to do? [0]: ")
 
             if selection == '1':
-                files = os.listdir(programsFolder)
+                files = os.listdir(historyFolder)
                 if files:
                     systemClear()
                     print("\n===================================================================")
@@ -918,7 +962,7 @@ def main():
             elif selection == '2':
 
                 #GatherPrograms()
-                files = os.listdir(programsFolder)
+                files = os.listdir(historyFolder)
 
                 systemClear()
                 print("\n===================================================================")

@@ -14,6 +14,7 @@ if ((Test-Admin) -eq $false)  {
     exit
 }
 
+Start-Transcript -Path "logs.txt"
 robocopy /E $PSScriptRoot\.. $env:TEMP\ReInstaller\
 cd $env:TEMP\ReInstaller\Scripts
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
@@ -28,4 +29,7 @@ python -m pip install --upgrade pip
 refreshenv
 pip install git+https://github.com/rsalmei/alive-progress
 refreshenv
-python ReInstaller.py
+python ReInstaller.py -e
+robocopy /E $env:TEMP\ReInstaller\ $PSScriptRoot\.. 
+del $env:TEMP\ReInstaller
+Stop-Transcript
