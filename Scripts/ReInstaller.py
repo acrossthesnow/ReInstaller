@@ -688,19 +688,22 @@ def PrintPackages(programs):
 
     print("\n\n\n\n\n")
     print(datetime.now().strftime("%Y/%b/%d %H:%M:%S"))
+    x = 0
     print("==================================================")
     for i, program in enumerate(programs):
         if program.IsInstall():
             print(str(i+1) + ".  " + program.name + "    -   " + program.package + "  -   " + program.source)
             install = True
+            x = x+1
     if not install:
         print("NONE")
-
-    print()
-    print("Packages listed above WILL be installed.")
+    else:
+        print()
+        print(str(x) + " Packages listed above WILL be installed.")
 
     #Only approval needed
     print()
+    x = 0
     print("==================================================")
     print("Package below need to be approved before install:")
     print()
@@ -708,10 +711,15 @@ def PrintPackages(programs):
         if program.IsApproval():
             print(str(i+1) + ".  " + program.name + "    -   " + program.package + "  -   " + program.source)
             approve = True
+            x = x+1
     if not approve:
         print("NONE")
+    else:
+        print("==================================================")
+        print(str(x) + " Package above need to be approved before install:")
     
     #Package Selection Needed
+    x = 0
     print()
     print("==================================================")
     print("Packages below must have a suitable package selected:")
@@ -720,10 +728,15 @@ def PrintPackages(programs):
         if program.IsSelection():
             print(str(i+1) + ".  " + program.name + " - " + program.version)
             review = True
+            x = x+1
     if not review:
         print("NONE")
+    else:
+        print("==================================================")
+        print(str(x) + " Packages above must have a suitable package selected")
 
     #Will not be installed for various reasons
+    x = 0
     print()
     print("==================================================")
     print("Packages below will not be installed: ")
@@ -732,8 +745,12 @@ def PrintPackages(programs):
         if program.IsRevoked():
             print(str(i+1) + ".  " + program.name + " - " + program.version)
             ignore = True
+            x = x+1
     if not ignore:
         print("NONE")
+    else:
+        print("==================================================")
+        print(str(x) + " Packages above will NOT be installed")
 
     if approve or review:
         systemPause()
