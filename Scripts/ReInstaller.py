@@ -918,6 +918,7 @@ def main():
     attended = False
     mainLoop = True
     reviewNow = False
+    programs = []
     # print(os.getcwd())
     while mainLoop == True:
         try:
@@ -1043,10 +1044,16 @@ def main():
                 elif attended == False:
                     attended = True
 
-            else:
+            elif selection == '0' or selection == '':
+                try:
+                    StorePackageReference(programs)
+                except:
+                    pass
                 mainLoop = False
 
-            
+            else:
+                raise Exception
+                
             if reviewNow == True:
 
                 FindChocoPackage(programs, attended = attended)
