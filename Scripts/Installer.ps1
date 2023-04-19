@@ -29,8 +29,31 @@ python -m pip install --upgrade pip
 refreshenv
 pip install git+https://github.com/rsalmei/alive-progress
 refreshenv
-Write-Host "Changing RunOnce script." -foregroundcolor "magenta"
-$RunOnceKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
-set-itemproperty $RunOnceKey "NextRun" ('C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File ' + '$env:TEMP\ReInstaller\Scripts\Phase2Installer.ps1')
+## Create the action
+$action = New-ScheduledTaskAction -Execute 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe' -Argument '-File "$env:TEMP\ReInstaller\Scripts\Phase2Installer.ps1"'
+
+## Set to run as local system, No need to store Credentials!!!
+$principal = New-ScheduledTaskPrincipal -UserId $env:ComputerName\$env:UserName -LogonType Interactive -RunLevel Highest
+
+## set to run at startup could also do -AtLogOn for the trigger
+$trigger = New-ScheduledTaskTrigger -AtLogon -User "$env:ComputerName\$env:UserName"
+$Settings = New-ScheduledTaskSettingsSet -Priority 4
+
+## register it (save it) and it will show up in default folder of task scheduler.
+$Task = New-ScheduledTask -Action $Action -Trigger $Trigger -Principal $Principal -Settings $Settings
+Register-ScheduledTask -TaskName 'ReInstaller' -InputObject $Task
+
+#Set current path for next stage
+$location = "$PSScriptRoot\"
+$location|export-clixml -path "$env:TEMP\ReInstaller\Scripts\ORIGINALPATH.xml"
+
+
+pause
+#$RunOnceKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
+#set-itemproperty $RunOnceKey "ReInstaller" ('C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy bypass -File $env:TEMP\ReInstaller\Scripts\Phase2Installer.ps1')
+# Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+# Install-Module PSWindowsUpdate -Force
+# Import-Module PSWindowsUpdate
+# Get-WUInstall -AcceptAll -AutoReboot
 #Stop-Transcript
-Restart-Computer -Force -Confirm
+Restart-Computer

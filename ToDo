@@ -1,1 +1,6 @@
 Fix EditProgram function to allow for selection. Currently not responding to selection.
+
+Add a counter to the PackageSelection function
+Which package would you like to install for this program?(0 - No package) [0]
+
+Add tracker for programs to install manually
