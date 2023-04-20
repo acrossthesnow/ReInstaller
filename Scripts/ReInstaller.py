@@ -15,12 +15,15 @@ try:
     if args.e:
         cwd = os.getenv("TEMP")
         cwd = cwd  + '\\ReInstaller\\'
-    else:
+    elif os.getcwd().__contains__('Scripts'):
         cwd = os.getcwd()
         cwd = cwd  + '\..\\'
+    else:
+        cwd = os.getcwd()
+        cwd = cwd  + '\\'
 except:
     cwd = os.getcwd()
-    cwd = cwd  + '\..\\'
+    cwd = cwd  + '\\'
 
 # print(cwd)
 # os.system('PAUSE')
@@ -276,8 +279,8 @@ def CleanOptions(output):
 
             
 def FindChocoPackage(programs, attended=True, freshScan=False):
-    systemClear()
     with alive_bar(title='Searching for packages', total=len(programs)) as bar:
+        systemClear()
         for i, program in enumerate(programs):
             if GetStoredPackage(program) and not freshScan:
                 GetPackageInfo(program)
@@ -287,71 +290,48 @@ def FindChocoPackage(programs, attended=True, freshScan=False):
 
             else:    
                 output = subprocess.run("choco search " + program.name, stdout=subprocess.PIPE, universal_newlines=True)
+                options = CleanOptions(output.stdout)
                 parted = program.name.split()
                 if len(parted) > 1:
-                    if output.stdout.__contains__('\n0 packages found'):
+                    if len(options) == 0:
                         for i in range(0, len(parted)):
                             output = subprocess.run("choco search " + ' '.join(parted[0:(len(parted)-1-i)]), stdout=subprocess.PIPE, universal_newlines=True)
-                            
-                            if output.stdout.__contains__('\n0 packages found') and (len(parted)-1-i) != 1:
+                            options = CleanOptions(output.stdout)
+                            if len(options) == 0 and (len(parted)-1-i) != 1:
                                 continue
                             
-                            elif output.stdout.__contains__('\n0 packages found'):
+                            elif len(options) == 0:
                                 program.Revoke()
                                 break
                                                 
-                            elif output.stdout.__contains__('1 packages found'):
-                                program.package = output.stdout.split('\n')[1].split()[0]
+                            elif len(options) == 1 and attended == False:
+                                program.package = options[0].split()[0]
                                 program.Approval()
                                 GetPackageInfo(program)
                                 break
 
-                            elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('\n0 packages found') and attended == False:
-                                # options = output.stdout.split('\n')
-                                
-                                # options.pop(0)
-
-                                # for x, option in enumerate(options):
-                                #     if option.endswith('packages found.'):
-                                #         d = len(options) - x
-                                    
-                                # for x in range(d):
-                                #     options.pop(-1)
-                                # for i, option in enumerate(options):
-                                #     if i == 25:
-                                #         break
-                                #     program.options[option] = option.split()[0]
-                                program.options = CleanOptions(output.stdout)
-
+                            elif not len(options) == 1 and not len(options) == 0 and attended == False:
+                                program.options = options
                                 program.Selection()
                                 break
 
-                            elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('\n0 packages found') and attended == True:
+                            elif not len(options) == 0 and attended == True:
+                                systemClear()
+                                again = False
                                 with bar.pause():
-                                    # options = output.stdout.split('\n')
-                                    # options.pop(0)
-
-                                    # for x, option in enumerate(options):
-                                    #     if option.endswith('packages found.'):
-                                    #         d = len(options) - x
-                                        
-                                    # for x in range(d):
-                                    #     options.pop(-1)
-
-                                    options = CleanOptions(output.stdout)
-
                                     loop = True
                                     while loop == True:    
                                         print("\n===================================================================")
                                         length = len(options)
                                         for i, package in enumerate(reversed(options), start=1):
                                             n = length - i
-                                            print(str(n+1) + ". " + package)
+                                            print(str(n+2) + ". " + package)
                                         
                                         print()
                                         print("Program Name: " + program.name + "    Version: " + program.version)
                                         print()
                                         print("0. Don't Install")
+                                        print("1. Search Again")
                                         print("M. Manually Install")
                                         print("Q. Exit Attended Mode")
                                         selection = input("Which package would you like to install for this program?: ")
@@ -359,22 +339,26 @@ def FindChocoPackage(programs, attended=True, freshScan=False):
                                             program.Revoke()
                                             loop = False
                                             bar()
+                                        
+                                        elif selection == '1':
+                                            again = True
+                                            loop = False
 
                                         elif selection.lower() == 'q':
                                             attended = False
                                             program.package = options[0].split()[0]
                                             program.Selection()
+                                            loop = False
                                         
                                         elif selection.lower() == 'm':
                                             program.Manual()
-                                            
                                             GetPackageInfo(program)
                                             loop = False
                                             bar()
                                             
                                         else:
                                             try:
-                                                program.package = options[int(selection)-1].split()[0]
+                                                program.package = options[int(selection)-2].split()[0]
                                                 GetPackageInfo(program)
                                                 program.Install()
                                                 loop = False
@@ -384,49 +368,24 @@ def FindChocoPackage(programs, attended=True, freshScan=False):
                                                 print("The number you have entered is not valid. Please try again.")
                                                 systemPause()
                                                 loop = True
-
-                                break
+                                if again:
+                                    pass
+                                else:
+                                    break
                     
-                    elif output.stdout.__contains__('1 packages found'):
-                        program.package = output.stdout.split('\n')[1].split()[0]
+                    elif len(options) == 1:
+                        program.package = options[0].split()[0]
                         program.Approval()
                         GetPackageInfo(program)
                         
 
-                    elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('\n0 packages found') and attended == False:
-                        
-                        # options = output.stdout.split('\n')
-                        # options.pop(0)
-
-                        # for x, option in enumerate(options):
-                        #     if option.endswith('packages found.'):
-                        #         d = len(options) - x
-                            
-                        # for x in range(d):
-                        #     options.pop(-1)
-                        # for i, option in enumerate(options):
-                        #     if i == 25:
-                        #         break
-                        #     program.options[option] = option.split()[0]
-                        
-                        program.options = CleanOptions(output.stdout)
-
+                    elif not len(options) == 1 and not len(options) == 0 and attended == False:         
+                        program.options = options
                         program.Selection()
                         
 
-                    elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('\n0 packages found') and attended == True:
+                    elif not len(options) == 0 and attended == True:
                         with bar.pause():
-                            # options = output.stdout.split('\n')
-                            # options.pop(0)
-
-                            # for x, option in enumerate(options):
-                            #     if option.endswith('packages found.'):
-                            #         d = len(options) - x
-                                
-                            # for x in range(d):
-                            #     options.pop(-1)
-                            options = CleanOptions(output.stdout)
-
                             loop = True
                             while loop == True:    
                                 print("\n===================================================================")
@@ -472,45 +431,23 @@ def FindChocoPackage(programs, attended=True, freshScan=False):
                                         loop = True
 
                 elif len(parted) == 1:
-                    if output.stdout.__contains__('\n0 packages found'):
+                    if len(options) == 0:
                         program.Revoke()
                         
                 
-                    elif output.stdout.__contains__('1 packages found'):
-                        program.package = output.stdout.split('\n')[1].split()[0]
+                    elif len(options) == 1:
+                        program.package = options[0].split()[0]
                         program.Approval()
                         GetPackageInfo(program)
 
-                    elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('\n0 packages found') and attended == False:
-                        # options = output.stdout.split('\n')
-                        # options.pop(0)
+                    elif not len(options) == 0 and not len(options) == 1 and attended == False:
 
-                        # for x, option in enumerate(options):
-                        #     if option.endswith('packages found.'):
-                        #         d = len(options) - x
-                            
-                        # for x in range(d):
-                        #     options.pop(-1)
-                        # for option in options:
-                        #     program.options[option] = option.split()[0]
-                        program.options = CleanOptions(output.stdout)
-
+                        program.package = options[0].split()[0]
                         program.Selection()
 
 
-                    elif not output.stdout.__contains__('1 packages found') and not output.stdout.__contains__('\n0 packages found') and attended == True:
+                    elif not len(options) == 0 and not len(options) == 1 and attended == True:
                         with bar.pause():
-                            # options = output.stdout.split('\n')
-                            # options.pop(0)
-
-                            # for x, option in enumerate(options):
-                            #     if option.endswith('packages found.'):
-                            #         d = len(options) - x
-                                
-                            # for x in range(d):
-                            #     options.pop(-1)
-                            options = CleanOptions(output.stdout)
-
                             loop = True
                             while loop == True:    
                                 print("\n===================================================================")
@@ -526,9 +463,9 @@ def FindChocoPackage(programs, attended=True, freshScan=False):
                                 print("0. Don't Install")
                                 print("M. Manual Install")
                                 print("Q. Exit Attended Mode")
-                                selection = input("Which package would you like to install for this program?: ")    
+                                selection = input("Which package would you like to install for this program? [0]: ")    
                                 
-                                if selection == '0':
+                                if selection == '' or selection == '0' or selection.isspace():
                                     program.Revoke()
                                     loop = False
                                     bar()
@@ -573,32 +510,31 @@ def PackageSelection(program):
             length = len(program.options)
             for i, package in enumerate(reversed(program.options), start=1):
                 n = length - i
-                print(str(n+1) + ". " + package)
+                print(str(n+2) + ". " + package)
 
             print()
             print("Program Name: " + program.name + "    Version: " + program.version)
+            print()
             print("0. Don't Install")
-            print("1. Manual Install")
-            selection = input("Which package would you like to install for this program? [0]:   ")
+            print("1. Search Again")
+            print("M. Manual Install")
+            print("Q. Exit Attended Mode")
+            selection = input("Which package would you like to install for this program? [0]: ")   
             try:
                 if selection == '' or selection == '0' or selection.isspace():
                     program.Revoke()
                     program.package = ''
+                    break
 
                 elif selection == '1':
-                    program.Manual()
+                    FindChocoPackage([program], freshScan = True, attended=True)
+                    break
 
                 else:
                     selection = int(selection)
-                    program.package = program.options[selection-1]
+                    program.package = program.options[selection-2]
                     GetPackageInfo(program)
                     program.Install()
-                    # for i, package in enumerate(program.options):
-                    #     if selection - 1 == i:
-                    #         program.package = program.options[selection-1]
-                    #         GetPackageInfo(program)
-                    #         program.Install()
-
                 loop = False
             except:
                 systemClear()
@@ -820,6 +756,7 @@ def ApprovePackages(programs):
                         print("0. Don't Install")
                         print("1. Approve")
                         print("2. Select a different one")
+                        print("3. Manual Install")
                         selection = input("Please select one [0]: ")
                         if selection == '' or selection == '0' or selection.isspace():
                             program.Revoke()
@@ -827,6 +764,9 @@ def ApprovePackages(programs):
 
                         elif selection == '2':
                             PackageSelection(program)
+                        
+                        elif selection == '3':
+                            program.Manual()
 
                         else:
                             program.Install()
