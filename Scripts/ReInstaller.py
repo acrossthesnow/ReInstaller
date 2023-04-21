@@ -94,7 +94,7 @@ class Program:
         self.status = 3
 
     def Manual(self):
-        self.status == 2
+        self.status = 2
 
     def Revoke(self):
         self.status = 1
@@ -263,8 +263,6 @@ def GetPackageInfo(program):
         except UnicodeDecodeError:
             program.Approval()
         
-
-
 def CleanOptions(output):
     optionsList = []
     options = output.split('\n')
@@ -276,8 +274,7 @@ def CleanOptions(output):
             break
        
     return(optionsList)
-
-            
+      
 def FindChocoPackage(programs, attended=True, freshScan=False):
     with alive_bar(title='Searching for packages', total=len(programs)) as bar:
         systemClear()
@@ -334,8 +331,8 @@ def FindChocoPackage(programs, attended=True, freshScan=False):
                                         print("1. Search Again")
                                         print("M. Manually Install")
                                         print("Q. Exit Attended Mode")
-                                        selection = input("Which package would you like to install for this program?: ")
-                                        if selection == '0':
+                                        selection = input("Which package would you like to install for this program? [0]: ")
+                                        if selection == '' or selection == '0' or selection.isspace():
                                             program.Revoke()
                                             loop = False
                                             bar()
@@ -400,8 +397,8 @@ def FindChocoPackage(programs, attended=True, freshScan=False):
                                 print("0. Don't Install")
                                 print("M. Manual Install")
                                 print("Q. Exit Attended Mode")
-                                selection = input("Which package would you like to install for this program?: ")
-                                if selection == '0':
+                                selection = input("Which package would you like to install for this program? [0]: ")
+                                if selection == '' or selection == '0' or selection.isspace():
                                     program.Revoke()
                                     loop = False
                                     bar()
@@ -530,9 +527,18 @@ def PackageSelection(program):
                     FindChocoPackage([program], freshScan = True, attended=True)
                     break
 
+                elif selection.lower() == 'm':
+                    program.Manual()
+                    break
+
+                elif selection.lower() == 'q':
+                    program.package = program.options[selection-2].split()[0]
+                    GetPackageInfo(program)
+                    program.Approve()
+
                 else:
                     selection = int(selection)
-                    program.package = program.options[selection-2]
+                    program.package = program.options[selection-2].split()[0]
                     GetPackageInfo(program)
                     program.Install()
                 loop = False
@@ -779,7 +785,7 @@ def ReviewPackages(programs):
     for program in programs:
         if program.IsSelection():
             length = length + 1
-    if length > 1:
+    if length > 0:
         systemClear()
         print("The following programs need a package to be selected.")
         systemPause()
