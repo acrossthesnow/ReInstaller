@@ -1,4 +1,7 @@
-# ReInstaller
+
+x![ReInstallerLogo](https://user-images.githubusercontent.com/5920747/233789826-1f4d6f6a-6d8a-4b9b-9e4b-362263d1f7aa.png)
+
+# About
 
 Have you ever needed something to reinstall application after a fresh install of Windows???
 
