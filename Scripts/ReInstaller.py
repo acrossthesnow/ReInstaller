@@ -141,6 +141,7 @@ def NewestFile(path):
     paths = [os.path.join(path, basename) for basename in files]
     return max(paths, key=os.path.getctime)
 
+#Gather previous computers programs via powershell. Most inclusive process found.
 def GatherPrograms(mostRecent = False):
     args = "powershell.exe -ExecutionPolicy Bypass -File Scripts\InstalledPrograms.ps1"
     output = subprocess.run(args, stdout=subprocess.PIPE, universal_newlines=True).stdout
@@ -149,6 +150,61 @@ def GatherPrograms(mostRecent = False):
 
     with open(programsPath, 'w') as file:
         file.write(output)
+
+def ManuallyGatherDirectories():
+    directory = ''
+    directories = []
+    dirs = []
+    loop = True
+
+    while loop == True:
+        systemClear()
+        for dir in directories:
+            print(dir)
+        print()
+        print("0. Exit/Finish")
+        print("1. Add Directory")
+        selection = input("What would you like to do?: ")
+
+        if selection == '0':
+            return(dirs)
+            loop = False
+        
+        elif selection == '1':
+            directory = input("Please enter the directory path to look for programs (Folder must contain \"Program Files\"): ").strip('"')
+            directories.append(directory)
+            if os.path.isdir(directory) and directory.__contains__("Program Files"):
+                for dir in os.listdir(directory):
+                    dirs.append(dir)
+
+            else:
+                print("The directory you have provided is not valid. Please try again.")
+                loop = True
+                systemPause()
+    
+
+
+def ManuallyGatherPrograms():
+    write = ''
+    ver = "Unknown Version\n"
+    dirs = ManuallyGatherDirectories()
+    if dirs:
+        if os.path.isdir(historyFolder):
+            pass
+        else:
+            os.mkdir(historyFolder)
+
+        # for dir in dirs:
+        #     write.append(("{:108s} {:17s}".format(dir, ver)))
+
+        with open(programsPath, "w") as file:
+            file.write("\n\n")
+            for dir in dirs:
+                file.write(("{:108s} {:17s}".format(dir, ver)))
+            
+    else:
+        return
+    
 
 #Read all packages and their information from PackageReference.csv
 def ReadPackageReference():
@@ -914,13 +970,19 @@ def main():
             print("===========Main Menu===========")
             print("Attended Mode: " + str(attended))
             print("0. Exit")
-            print("1. Old Computer")
-            print("2. New Computer")
-            print("3. Change Attended Mode")
+            print("1. Old Computer (Read programs and store)")
+            print("2. New Computer (Review programs before install and install)")
+            print("3. Manual Program Gathering (Use if you don't have access to previous computer, but still have access to programs folder)")
+            print("4. Change Attended Mode")
             selection = input("What would you like to do? [0]: ")
 
             if selection == '1':
-                files = os.listdir(historyFolder)
+                if os.path.isdir(historyFolder):
+                    files = os.listdir(historyFolder)
+                else:
+                    GatherPrograms()
+                    files = os.listdir(historyFolder)
+
                 if files:
                     systemClear()
                     print("\n===================================================================")
@@ -1025,8 +1087,13 @@ def main():
 
                     if result[1]:
                         ReviewPackages(programs)
-
+            
+            #Manual Program Finder
             elif selection == '3':
+                ManuallyGatherPrograms()
+            
+            #Change attended mode
+            elif selection == '4':
                 if attended == True:
                     attended = False
                 elif attended == False:
