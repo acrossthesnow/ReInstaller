@@ -1,501 +1,251 @@
-Name,Version,Package,Status
-
-Windows Driver Package - Adafruit Industries LLC (usbser) Ports  (02/25/2016 6.2.2600.0),02/25/2016 6.2.2600.0,,1
-
-Windows Driver Package - libusb-win32 (libusb0) libusb-win32 devices  (04/21/2015 1.0.0.0),04/21/2015 1.0.0.0,,1
-
-7-Zip 22.00 (x64),22.00,7zip,5
-
-RSI Launcher 1.6.5,1.6.5,,1
-
-Windows Driver Package - Arduino LLC (www.arduino.cc) Arduino USB Driver (11/24/2015 1.2.3.0),11/24/2015 1.2.3.0,,1
-
-Windows Driver Package - Arduino LLC (www.arduino.cc) Genuino USB Driver (01/07/2016 1.0.3.0),01/07/2016 1.0.3.0,,1
-
-Git,2.39.1,git,5
-
-HWiNFO64 Version 7.42,7.42,,1
-
-Microsoft Visual J# 2.0 Redistributable Package - SE (x64),2.0.50728,vjredist,1
-
-Mozilla Firefox (x64 en-US),112.0,Firefox,5
-
-Mozilla Maintenance Service,101.0.1,,1
-
-Office 16 Click-to-Run Extensibility Component,16.0.16130.20218,,1
-
-Microsoft 365 - en-us,16.0.16227.20258,,1
-
-Office 16 Click-to-Run Licensing Component,16.0.16227.20204,,1
-
-Microsoft OneDrive,23.061.0319.0003,,1
-
-ASUS Aura SDK,3.4.11,wd-dashboard,1
-
-Python 3.10.5 Utility Scripts (64-bit),3.10.5150.0,python311,5
-
-PHISON HAL,1.0.9.0,,1
-
-Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.4148,9.0.30729.4148,,1
-
-Python 3.11.0 Standard Library (64-bit),3.11.150.0,python311,5
-
-AURA Service,3.5.40,,1
-
-AURA Service,3.05.40,,1
-
-Python 3.11.0 Core Interpreter (64-bit),3.11.150.0,python311,5
-
-Microsoft .NET Host FX Resolver - 6.0.15 (x86),48.63.56695,debugdiagnostictool,1
-
-Microsoft Visual C++ 2010  x64 Redistributable - 10.0.40219,10.0.40219,,1
-
-Microsoft Visual C++ 2022 X64 Additional Runtime - 14.34.31931,14.34.31931,,1
-
-Microsoft Visual C++ 2010  x86 Redistributable - 10.0.40219,10.0.40219,,1
-
-Microsoft Update Health Tools,3.70.0.0,,1
-
-X86 Debuggers And Tools,10.1.17763.132,,1
-
-Microsoft Visual C++ 2013 x86 Minimum Runtime - 12.0.21005,12.0.21005,mssqlserver-compact4.0,1
-
-Microsoft Visual C++ 2013 x86 Additional Runtime - 12.0.21005,12.0.21005,mssqlserver-compact4.0,1
-
-Node.js,18.12.1,nodejs,5
-
-Python 3.10.5 Standard Library (64-bit),3.10.5150.0,python311,5
-
-Python 3.11.0 Utility Scripts (64-bit),3.11.150.0,python311,5
-
-Apple Software Update,2.7.0.3,,1
-
-Microsoft Visual C++ 2022 X86 Minimum Runtime - 14.34.31931,14.34.31931,,1
-
-AURA lighting effect add-on x64,0.0.21,wd-dashboard,1
-
-VMware vSphere Client 5.5,5.5.0.4216,,1
-
-Universal Holtek RGB DRAM,1.0.0.2,,1
-
-Universal Holtek RGB DRAM,1.0.0.2,,1
-
-VLC media player,3.0.18,vlc,5
-
-Java 8 Update 361,8.0.3610.9,jdk8,5
-
-Java 8 Update 361 (64-bit),8.0.3610.9,jdk8,5
-
-Python 3.11.0 Tcl/Tk Support (64-bit),3.11.150.0,python311,5
-
-WD_BLACK AN1500,1.0.14.0,wd-dashboard,1
-
-ASUS AURA Motherboard HAL,1.3.0.0,wd-dashboard,1
-
-Microsoft Visual C++ 2013 x64 Additional Runtime - 12.0.21005,12.0.21005,mssqlserver-compact4.0,1
-
-Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.6161,9.0.30729.6161,,1
-
-Epic Online Services,2.0.36.0,legendary,1
-
-Adobe Acrobat (64-bit),23.1.20093,adobereader,5
-
-Adobe Refresh Manager,1.8.0,,1
-
-VoiceFX (Demo) (VST3.x) v0.3.2.0-g32d09129,0.3.2.0-g32d09129,,1
-
-ASUS AURA VGA Component,0.0.4.3,wd-dashboard,1
-
-Python 3.10.5 pip Bootstrap (64-bit),3.10.5150.0,python310,5
-
-ROG Live Service,2.0.6.0,,1
-
-Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729.6161,9.0.30729.6161,,1
-
-X64 Debuggers And Tools,10.1.17763.132,,1
-
-Microsoft Visual C++ 2013 x64 Minimum Runtime - 12.0.21005,12.0.21005,mssqlserver-compact4.0,1
-
-UniversalForwarder,9.0.0.1,splunk-universalforwarder,5
-
-Microsoft Visual C++ 2012 x64 Additional Runtime - 11.0.61030,11.0.61030,,1
-
-Windows PC Health Check,3.6.2204.8001,,1
-
-Tobii Experience Software For Windows,4.68.1.22182,,1
-
-Apple Mobile Device Support,16.5.0.12,iTunes,1
-
-Python 3.11.0 Documentation (64-bit),3.11.150.0,python311,5
-
-Python 3.10.5 Documentation (64-bit),3.10.5150.0,python310,5
-
-Bonjour,3.1.0.1,bonjour,1
-
-AURA DRAM Component,1.1.18,,1
-
-ASUS Update Helper,1.3.107.93,,1
-
-Go Programming Language amd64 go1.19.5,1.19.5,go,5
-
-Python Launcher,3.11.7966.0,,1
-
-VMware Remote Console,12.0.3,,1
-
-Microsoft .NET Host - 6.0.15 (x86),48.63.56695,debugdiagnostictool,1
-
-UE Prerequisites (x64),1.0.16.0,,1
-
-Microsoft Windows Desktop Runtime - 6.0.15 (x86),48.63.56729,,1
-
-Microsoft Windows Desktop Runtime - 6.0.15 (x86),6.0.15.32217,,1
-
-Python 3.11.0 Test Suite (64-bit),3.11.150.0,python311,5
-
-Elgato Audio Effects,1.1.0.0,wavelink,5
-
-iCloud Outlook,13.4.0.99,iCloud,5
-
-Epic Games Launcher,1.3.51.0,epicgameslauncher,5
-
-AURA lighting effect add-on,0.0.21,wd-dashboard,1
-
-Malwarebytes version 4.5.25.256,4.5.25.256,malwarebytes,5
-
-Tukui Client,3.4.1,tukui,5
-
-Oracle VM VirtualBox 7.0.6,7.0.6,virtualbox,5
-
-NVIDIA Audio Effects SDK,1.3.0.21,xmedia-recode,1
-
-Python 3.11.0 pip Bootstrap (64-bit),3.11.150.0,python311,5
-
-Microsoft Visual C++ 2012 x86 Additional Runtime - 11.0.61030,11.0.61030,,1
-
-NVIDIA Graphics Driver 531.41,531.41,,1
-
-Microsoft .NET Runtime - 6.0.15 (x86),48.63.56695,,1
-
-Python 3.11.0 Add to Path (64-bit),3.11.150.0,python311,5
-
-Microsoft Visual C++ 2012 x64 Minimum Runtime - 11.0.61030,11.0.61030,,1
-
-ENE RGB HAL,1.1.39.18,,1
-
-NVIDIA GeForce Experience 3.27.0.112,3.27.0.112,geforce-experience,5
-
-ASUS AURA Extension Card HAL,1.1.0.18,wd-dashboard,1
-
-Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729.4148,9.0.30729.4148,,1
-
-Patriot Viper M2 SSD RGB,1.0.6.5,,1
-
-Patriot Viper M2 SSD RGB,1.0.6.5,,1
-
-NVIDIA PhysX System Software 9.21.0713,9.21.0713,Physx.Legacy,1
-
-Python 3.10.5 Test Suite (64-bit),3.10.5150.0,python310,5
-
-Python 3.10.5 Tcl/Tk Support (64-bit),3.10.5150.0,python310,5
-
-Microsoft Visual C++ 2022 X64 Minimum Runtime - 14.34.31931,14.34.31931,,1
-
-GameSDK Service,1.0.5.0,,1
-
-GameSDK Service,1.0.5.0,,1
-
-NVIDIA FrameView SDK 1.3.8513.32290073,1.3.8513.32290073,,1
-
-VNC Viewer 6.22.515,6.22.515.47347,vnc-viewer,5
-
-Python 3.10.5 Development Libraries (64-bit),3.10.5150.0,python310,5
-
-Microsoft Visual C++ 2012 x86 Minimum Runtime - 11.0.61030,11.0.61030,,1
-
-Python 3.11.0 Executables (64-bit),3.11.150.0,python311,5
-
-ASUS AIOFan HAL,1.1.47.0,,1
-
-Elgato Wave Link,1.7.1.3057,wavelink,5
-
-Patriot Viper DRAM RGB,1.0.9.2,,1
-
-Patriot Viper DRAM RGB,1.0.9.2,,1
-
-Python 3.10.5 Core Interpreter (64-bit),3.10.5150.0,python310,5
-
-ASUS Framework Service,2.1.3.0,,1
-
-ASUS Framework Service,2.1.3.0,,1
-
-Python 3.10.5 Executables (64-bit),3.10.5150.0,python310,5
-
-iTunes,12.12.8.2,iTunes,5
-
-Java(TM) SE Development Kit 19.0.2 (64-bit),19.0.2.0,,1
-
-Kingston AURA DRAM Component,1.1.12,kingston-ssd-manager,1
-
-Java Auto Updater,2.8.361.9,,1
-
-NVIDIA HD Audio Driver 1.3.40.14,1.3.40.14,,1
-
-ENE_EHD_M2_HAL,1.0.9.12,,1
-
-Python 3.11.0 Development Libraries (64-bit),3.11.150.0,python311,5
-
-CORSAIR iCUE 4 Software,4.33.138,icue,1
-
-ARMOURY CRATE Lite Service,5.1.4,wd-dashboard,1
-
-Microsoft Visual C++ 2022 X86 Additional Runtime - 14.34.31931,14.34.31931,,1
-
-Python 3.7.0 Tcl/Tk Support (64-bit),3.7.150.0,python37,5
-
-Python 3.7.0 pip Bootstrap (64-bit),3.7.150.0,python37,5
-
-Python 3.7.0 Documentation (64-bit),3.7.150.0,python37,5
-
-Python 3.7.0 Development Libraries (64-bit),3.7.150.0,python37,5
-
-InstallRoot,5.5,installroot,5
-
-Python 3.7.0 Test Suite (64-bit),3.7.150.0,python37,5
-
-NVIDIA USBC Driver 1.50.831.832,1.50.831.832,,1
-
-Python 3.7.0 Executables (64-bit),3.7.150.0,python37,5
-
-Python 3.7.0 Core Interpreter (64-bit),3.7.150.0,python37,5
-
-Python 3.7.0 Add to Path (64-bit),3.7.150.0,python37,5
-
-Python 3.7.0 Utility Scripts (64-bit),3.7.150.0,python37,5
-
-Python 3.7.0 Standard Library (64-bit),3.7.150.0,python37,5
-
-blender,3.4.1,blender,5
-
-Microsoft Visual Studio Code,1.76.2,vscode,5
-
-WeakAuras Companion 4.1.1,4.1.1,weakauras-companion,5
-
-Warcraft Logs Uploader 5.9.0,5.9.0,,1
-
-balenaEtcher 1.18.4,1.18.4,etcher,5
-
-Discord,1.0.9007,discord,5
-
-GitHub Desktop,3.1.2,github-desktop,5
-
-CurseForge,0.219.2.8820,forgecli,1
-
-Tobii Game Hub,2.8.1,,1
-
-Tobii Ghost,1.14.1,,1
-
-Qt,4.5.1,qt-installer-framework,1
-
-Python 3.11.0 (64-bit),3.11.150.0,python311,5
-
-Python 3.10.5 (64-bit),3.10.5150.0,python310,5
-
-Python 3.7.0 (64-bit),3.7.150.0,python37,5
-
-MSI Afterburner 4.6.5 Beta 2,4.6.5 Beta 2,msiafterburner,5
-
-Creality Slicer 4.8.2,4.8.2,,1
-
-FileZilla 3.63.2.1,3.63.2.1,filezilla,5
-
-ImgBurn,2.5.8.0,imgburn,5
-
-Microsoft Edge,112.0.1722.39,,1
-
-Microsoft Edge Update,1.3.173.55,,1
-
-Microsoft Edge WebView2 Runtime,112.0.1722.34,webview2-runtime,1
-
-Notepad++ (32-bit x86),8.4.8,notepadplusplus,5
-
-Overwolf,0.221.109.12,overwolf,5
-
-Razer Synapse,3.8.0228.022313,razer-synapse-3,5
-
-RivaTuner Statistics Server 7.3.4 Beta 3,7.3.4 Beta 3,msiafterburner,5
-
-Steam,2.10.91.91,steam,5
-
-UltiMaker Cura 5.3.0,5.3.0,cura-new,5
-
-Ubisoft Connect,135.1.10758,ubisoft-connect,5
-
-Microsoft Visual C++ 2013 Redistributable (x64) - 12.0.30501,12.0.30501.0,MSVisualCplusplus2013-redist,1
-
-Microsoft Visual C++ 2012 Redistributable (x86) - 11.0.61030,11.0.61030.0,,1
-
-Microsoft Visual C++ 2015-2022 Redistributable (x86) - 14.34.31931,14.34.31931.0,vcredist140,1
-
-ASUS Motherboard,3.00.25,,1
-
-TradeSkillMaster Application version 1.0,1.0,,1
-
-Microsoft Visual C++ 2012 Redistributable (x64) - 11.0.61030,11.0.61030.0,,1
-
-Microsoft Visual C++ 2015-2022 Redistributable (x64) - 14.34.31931,14.34.31931.0,vcredist140,1
-
-Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.30501,12.0.30501.0,MSVisualCplusplus2013-redist,1
-
-PackageManagement,1.4.8.1,powershell-packagemanagement,1
-
-PowerShellGet,2.2.5,powershell-packagemanagement,1
-
-VMware.CloudServices,12.6.0.19606210,,1
-
-VMware.DeployAutomation,8.0.0.20826874,,1
-
-VMware.ImageBuilder,8.0.0.20817746,,1
-
-VMware.PowerCLI.Sdk,12.6.0.19600125,,1
-
-VMware.PowerCLI.Sdk.Types,12.6.0.19600125,,1
-
-VMware.PowerCLI.VCenter,12.6.0.19600125,,1
-
-VMware.PowerCLI.VCenter.Types.ApplianceService,12.6.0.19600125,,1
-
-VMware.PowerCLI.VCenter.Types.CertificateManagement,12.6.0.19600125,,1
-
-VMware.Sdk.Runtime,1.0.110.20623688,,1
-
-VMware.Sdk.vSphere,8.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Appliance,3.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Appliance.Access,2.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Appliance.Health,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Appliance.InfraProfile,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Appliance.LocalAccounts,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Appliance.Logging,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Appliance.Networking,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Appliance.Recovery,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Appliance.SupportBundle,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Appliance.System,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Appliance.Update,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Cis,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Cis.Tagging,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Content,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.ContentLibrary,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Esx.Hcl,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Esx.Hosts,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.Esx.Settings,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.VAPI.Metadata,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.Authentication,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.CertManagement,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.Content,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.Datastore,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.Deployment,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.Guest,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.Identity,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.Inventory,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.ISO,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.LCM,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.NamespaceManagement,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.Namespaces,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.OVF,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.Services,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.Storage,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.SystemConfig,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.Tagging,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.Topology,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.TrustedInfrastructure,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.VCHA,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.Vm,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vCenter.VmTemplate,1.0.110.20624081,,1
-
-VMware.Sdk.vSphere.vStats,1.0.110.20624081,,1
-
-VMware.Sdk.vSphereRuntime,1.0.110.20624081,,1
-
-VMware.Vim,8.0.1.20797199,,1
-
-VMware.VimAutomation.Cis.Core,13.0.0.20797636,,1
-
-VMware.VimAutomation.Cloud,13.0.0.20809912,,1
-
-VMware.VimAutomation.Common,13.0.0.20797081,,1
-
-VMware.VimAutomation.Core,13.0.0.20797821,,1
-
-VMware.VimAutomation.Hcx,13.0.0.20803747,,1
-
-VMware.VimAutomation.HorizonView,13.0.0.20685235,,1
-
-VMware.VimAutomation.License,12.0.0.15939670,,1
-
-VMware.VimAutomation.Nsxt,13.0.0.20797706,,1
-
-VMware.VimAutomation.Sdk,13.0.0.20791442,,1
-
-VMware.VimAutomation.Security,13.0.0.20800625,,1
-
-VMware.VimAutomation.Srm,12.7.0.20091290,,1
-
-VMware.VimAutomation.Storage,13.0.0.20797966,,1
-
-VMware.VimAutomation.StorageUtility,1.6.0.0,,1
-
-VMware.VimAutomation.Vds,13.0.0.20803944,,1
-
-VMware.VimAutomation.Vmc,13.0.0.20797723,,1
-
-VMware.VimAutomation.vROps,12.5.0.19167825,,1
-
-VMware.VimAutomation.WorkloadManagement,12.4.0.18627055,,1
-
-VMware.VumAutomation,12.7.0.20091294,,1
-
-VMware.PowerCLI,13.0.0.20829139,vmware-powercli-psmodule,1
-
-VMware.Sdk.Nsx.Policy,4.0.0.20829136,,1
+Name,Version,Package,Status
+Windows Driver Package - Adafruit Industries LLC (usbser) Ports  (02/25/2016 6.2.2600.0),02/25/2016 6.2.2600.0,,1
+Windows Driver Package - libusb-win32 (libusb0) libusb-win32 devices  (04/21/2015 1.0.0.0),04/21/2015 1.0.0.0,,1
+7-Zip 22.00 (x64),22.00,7zip,5
+RSI Launcher 1.6.5,1.6.5,,1
+Windows Driver Package - Arduino LLC (www.arduino.cc) Arduino USB Driver (11/24/2015 1.2.3.0),11/24/2015 1.2.3.0,,1
+Windows Driver Package - Arduino LLC (www.arduino.cc) Genuino USB Driver (01/07/2016 1.0.3.0),01/07/2016 1.0.3.0,,1
+Git,2.39.1,git,5
+HWiNFO64 Version 7.42,7.42,,1
+Microsoft Visual J# 2.0 Redistributable Package - SE (x64),2.0.50728,vjredist,1
+Mozilla Firefox (x64 en-US),112.0,Firefox,5
+Mozilla Maintenance Service,101.0.1,,1
+Office 16 Click-to-Run Extensibility Component,16.0.16130.20218,,1
+Microsoft 365 - en-us,16.0.16227.20258,,1
+Office 16 Click-to-Run Licensing Component,16.0.16227.20204,,1
+Microsoft OneDrive,23.061.0319.0003,,1
+ASUS Aura SDK,3.4.11,wd-dashboard,1
+Python 3.10.5 Utility Scripts (64-bit),3.10.5150.0,python311,5
+PHISON HAL,1.0.9.0,,1
+Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.4148,9.0.30729.4148,,1
+Python 3.11.0 Standard Library (64-bit),3.11.150.0,python311,5
+AURA Service,3.5.40,,1
+AURA Service,3.05.40,,1
+Python 3.11.0 Core Interpreter (64-bit),3.11.150.0,python311,5
+Microsoft .NET Host FX Resolver - 6.0.15 (x86),48.63.56695,debugdiagnostictool,1
+Microsoft Visual C++ 2010  x64 Redistributable - 10.0.40219,10.0.40219,,1
+Microsoft Visual C++ 2022 X64 Additional Runtime - 14.34.31931,14.34.31931,,1
+Microsoft Visual C++ 2010  x86 Redistributable - 10.0.40219,10.0.40219,,1
+Microsoft Update Health Tools,3.70.0.0,,1
+X86 Debuggers And Tools,10.1.17763.132,,1
+Microsoft Visual C++ 2013 x86 Minimum Runtime - 12.0.21005,12.0.21005,mssqlserver-compact4.0,1
+Microsoft Visual C++ 2013 x86 Additional Runtime - 12.0.21005,12.0.21005,mssqlserver-compact4.0,1
+Node.js,18.12.1,nodejs,5
+Python 3.10.5 Standard Library (64-bit),3.10.5150.0,python311,5
+Python 3.11.0 Utility Scripts (64-bit),3.11.150.0,python311,5
+Apple Software Update,2.7.0.3,,1
+Microsoft Visual C++ 2022 X86 Minimum Runtime - 14.34.31931,14.34.31931,,1
+AURA lighting effect add-on x64,0.0.21,wd-dashboard,1
+VMware vSphere Client 5.5,5.5.0.4216,,1
+Universal Holtek RGB DRAM,1.0.0.2,,1
+Universal Holtek RGB DRAM,1.0.0.2,,1
+VLC media player,3.0.18,vlc,5
+Java 8 Update 361,8.0.3610.9,jdk8,5
+Java 8 Update 361 (64-bit),8.0.3610.9,jdk8,5
+Python 3.11.0 Tcl/Tk Support (64-bit),3.11.150.0,python311,5
+WD_BLACK AN1500,1.0.14.0,wd-dashboard,1
+ASUS AURA Motherboard HAL,1.3.0.0,wd-dashboard,1
+Microsoft Visual C++ 2013 x64 Additional Runtime - 12.0.21005,12.0.21005,mssqlserver-compact4.0,1
+Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.6161,9.0.30729.6161,,1
+Epic Online Services,2.0.36.0,legendary,1
+Adobe Acrobat (64-bit),23.1.20093,adobereader,5
+Adobe Refresh Manager,1.8.0,,1
+VoiceFX (Demo) (VST3.x) v0.3.2.0-g32d09129,0.3.2.0-g32d09129,,1
+ASUS AURA VGA Component,0.0.4.3,wd-dashboard,1
+Python 3.10.5 pip Bootstrap (64-bit),3.10.5150.0,python310,5
+ROG Live Service,2.0.6.0,,1
+Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729.6161,9.0.30729.6161,,1
+X64 Debuggers And Tools,10.1.17763.132,,1
+Microsoft Visual C++ 2013 x64 Minimum Runtime - 12.0.21005,12.0.21005,mssqlserver-compact4.0,1
+UniversalForwarder,9.0.0.1,splunk-universalforwarder,5
+Microsoft Visual C++ 2012 x64 Additional Runtime - 11.0.61030,11.0.61030,,1
+Windows PC Health Check,3.6.2204.8001,,1
+Tobii Experience Software For Windows,4.68.1.22182,,1
+Apple Mobile Device Support,16.5.0.12,iTunes,1
+Python 3.11.0 Documentation (64-bit),3.11.150.0,python311,5
+Python 3.10.5 Documentation (64-bit),3.10.5150.0,python310,5
+Bonjour,3.1.0.1,bonjour,1
+AURA DRAM Component,1.1.18,,1
+ASUS Update Helper,1.3.107.93,,1
+Go Programming Language amd64 go1.19.5,1.19.5,go,5
+Python Launcher,3.11.7966.0,,1
+VMware Remote Console,12.0.3,,1
+Microsoft .NET Host - 6.0.15 (x86),48.63.56695,debugdiagnostictool,1
+UE Prerequisites (x64),1.0.16.0,,1
+Microsoft Windows Desktop Runtime - 6.0.15 (x86),48.63.56729,,1
+Microsoft Windows Desktop Runtime - 6.0.15 (x86),6.0.15.32217,,1
+Python 3.11.0 Test Suite (64-bit),3.11.150.0,python311,5
+Elgato Audio Effects,1.1.0.0,wavelink,5
+iCloud Outlook,13.4.0.99,iCloud,5
+Epic Games Launcher,1.3.51.0,epicgameslauncher,5
+AURA lighting effect add-on,0.0.21,wd-dashboard,1
+Malwarebytes version 4.5.25.256,4.5.25.256,malwarebytes,5
+Tukui Client,3.4.1,tukui,5
+Oracle VM VirtualBox 7.0.6,7.0.6,virtualbox,5
+NVIDIA Audio Effects SDK,1.3.0.21,xmedia-recode,1
+Python 3.11.0 pip Bootstrap (64-bit),3.11.150.0,python311,5
+Microsoft Visual C++ 2012 x86 Additional Runtime - 11.0.61030,11.0.61030,,1
+NVIDIA Graphics Driver 531.41,531.41,,1
+Microsoft .NET Runtime - 6.0.15 (x86),48.63.56695,,1
+Python 3.11.0 Add to Path (64-bit),3.11.150.0,python311,5
+Microsoft Visual C++ 2012 x64 Minimum Runtime - 11.0.61030,11.0.61030,,1
+ENE RGB HAL,1.1.39.18,,1
+NVIDIA GeForce Experience 3.27.0.112,3.27.0.112,geforce-experience,5
+ASUS AURA Extension Card HAL,1.1.0.18,wd-dashboard,1
+Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729.4148,9.0.30729.4148,,1
+Patriot Viper M2 SSD RGB,1.0.6.5,,1
+Patriot Viper M2 SSD RGB,1.0.6.5,,1
+NVIDIA PhysX System Software 9.21.0713,9.21.0713,Physx.Legacy,1
+Python 3.10.5 Test Suite (64-bit),3.10.5150.0,python310,5
+Python 3.10.5 Tcl/Tk Support (64-bit),3.10.5150.0,python310,5
+Microsoft Visual C++ 2022 X64 Minimum Runtime - 14.34.31931,14.34.31931,,1
+GameSDK Service,1.0.5.0,,1
+GameSDK Service,1.0.5.0,,1
+NVIDIA FrameView SDK 1.3.8513.32290073,1.3.8513.32290073,,1
+VNC Viewer 6.22.515,6.22.515.47347,vnc-viewer,5
+Python 3.10.5 Development Libraries (64-bit),3.10.5150.0,python310,5
+Microsoft Visual C++ 2012 x86 Minimum Runtime - 11.0.61030,11.0.61030,,1
+Python 3.11.0 Executables (64-bit),3.11.150.0,python311,5
+ASUS AIOFan HAL,1.1.47.0,,1
+Elgato Wave Link,1.7.1.3057,wavelink,5
+Patriot Viper DRAM RGB,1.0.9.2,,1
+Patriot Viper DRAM RGB,1.0.9.2,,1
+Python 3.10.5 Core Interpreter (64-bit),3.10.5150.0,python310,5
+ASUS Framework Service,2.1.3.0,,1
+ASUS Framework Service,2.1.3.0,,1
+Python 3.10.5 Executables (64-bit),3.10.5150.0,python310,5
+iTunes,12.12.8.2,iTunes,5
+Java(TM) SE Development Kit 19.0.2 (64-bit),19.0.2.0,,1
+Kingston AURA DRAM Component,1.1.12,kingston-ssd-manager,1
+Java Auto Updater,2.8.361.9,,1
+NVIDIA HD Audio Driver 1.3.40.14,1.3.40.14,,1
+ENE_EHD_M2_HAL,1.0.9.12,,1
+Python 3.11.0 Development Libraries (64-bit),3.11.150.0,python311,5
+CORSAIR iCUE 4 Software,4.33.138,icue,1
+ARMOURY CRATE Lite Service,5.1.4,wd-dashboard,1
+Microsoft Visual C++ 2022 X86 Additional Runtime - 14.34.31931,14.34.31931,,1
+Python 3.7.0 Tcl/Tk Support (64-bit),3.7.150.0,python37,5
+Python 3.7.0 pip Bootstrap (64-bit),3.7.150.0,python37,5
+Python 3.7.0 Documentation (64-bit),3.7.150.0,python37,5
+Python 3.7.0 Development Libraries (64-bit),3.7.150.0,python37,5
+InstallRoot,5.5,installroot,5
+Python 3.7.0 Test Suite (64-bit),3.7.150.0,python37,5
+NVIDIA USBC Driver 1.50.831.832,1.50.831.832,,1
+Python 3.7.0 Executables (64-bit),3.7.150.0,python37,5
+Python 3.7.0 Core Interpreter (64-bit),3.7.150.0,python37,5
+Python 3.7.0 Add to Path (64-bit),3.7.150.0,python37,5
+Python 3.7.0 Utility Scripts (64-bit),3.7.150.0,python37,5
+Python 3.7.0 Standard Library (64-bit),3.7.150.0,python37,5
+blender,3.4.1,blender,5
+Microsoft Visual Studio Code,1.76.2,vscode,5
+WeakAuras Companion 4.1.1,4.1.1,weakauras-companion,5
+Warcraft Logs Uploader 5.9.0,5.9.0,,1
+balenaEtcher 1.18.4,1.18.4,etcher,5
+Discord,1.0.9007,discord,5
+GitHub Desktop,3.1.2,github-desktop,5
+CurseForge,0.219.2.8820,forgecli,1
+Tobii Game Hub,2.8.1,,1
+Tobii Ghost,1.14.1,,1
+Qt,4.5.1,qt-installer-framework,1
+Python 3.11.0 (64-bit),3.11.150.0,python311,5
+Python 3.10.5 (64-bit),3.10.5150.0,python310,5
+Python 3.7.0 (64-bit),3.7.150.0,python37,5
+MSI Afterburner 4.6.5 Beta 2,4.6.5 Beta 2,msiafterburner,5
+Creality Slicer 4.8.2,4.8.2,,1
+FileZilla 3.63.2.1,3.63.2.1,filezilla,5
+ImgBurn,2.5.8.0,imgburn,5
+Microsoft Edge,112.0.1722.39,,1
+Microsoft Edge Update,1.3.173.55,,1
+Microsoft Edge WebView2 Runtime,112.0.1722.34,webview2-runtime,1
+Notepad++ (32-bit x86),8.4.8,notepadplusplus,5
+Overwolf,0.221.109.12,overwolf,5
+Razer Synapse,3.8.0228.022313,razer-synapse-3,5
+RivaTuner Statistics Server 7.3.4 Beta 3,7.3.4 Beta 3,msiafterburner,5
+Steam,2.10.91.91,steam,5
+UltiMaker Cura 5.3.0,5.3.0,cura-new,5
+Ubisoft Connect,135.1.10758,ubisoft-connect,5
+Microsoft Visual C++ 2013 Redistributable (x64) - 12.0.30501,12.0.30501.0,MSVisualCplusplus2013-redist,1
+Microsoft Visual C++ 2012 Redistributable (x86) - 11.0.61030,11.0.61030.0,,1
+Microsoft Visual C++ 2015-2022 Redistributable (x86) - 14.34.31931,14.34.31931.0,vcredist140,1
+ASUS Motherboard,3.00.25,,1
+TradeSkillMaster Application version 1.0,1.0,,1
+Microsoft Visual C++ 2012 Redistributable (x64) - 11.0.61030,11.0.61030.0,,1
+Microsoft Visual C++ 2015-2022 Redistributable (x64) - 14.34.31931,14.34.31931.0,vcredist140,1
+Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.30501,12.0.30501.0,MSVisualCplusplus2013-redist,1
+PackageManagement,1.4.8.1,powershell-packagemanagement,1
+PowerShellGet,2.2.5,powershell-packagemanagement,1
+VMware.CloudServices,12.6.0.19606210,,1
+VMware.DeployAutomation,8.0.0.20826874,,1
+VMware.ImageBuilder,8.0.0.20817746,,1
+VMware.PowerCLI.Sdk,12.6.0.19600125,,1
+VMware.PowerCLI.Sdk.Types,12.6.0.19600125,,1
+VMware.PowerCLI.VCenter,12.6.0.19600125,,1
+VMware.PowerCLI.VCenter.Types.ApplianceService,12.6.0.19600125,,1
+VMware.PowerCLI.VCenter.Types.CertificateManagement,12.6.0.19600125,,1
+VMware.Sdk.Runtime,1.0.110.20623688,,1
+VMware.Sdk.vSphere,8.0.110.20624081,,1
+VMware.Sdk.vSphere.Appliance,3.0.110.20624081,,1
+VMware.Sdk.vSphere.Appliance.Access,2.0.110.20624081,,1
+VMware.Sdk.vSphere.Appliance.Health,1.0.110.20624081,,1
+VMware.Sdk.vSphere.Appliance.InfraProfile,1.0.110.20624081,,1
+VMware.Sdk.vSphere.Appliance.LocalAccounts,1.0.110.20624081,,1
+VMware.Sdk.vSphere.Appliance.Logging,1.0.110.20624081,,1
+VMware.Sdk.vSphere.Appliance.Networking,1.0.110.20624081,,1
+VMware.Sdk.vSphere.Appliance.Recovery,1.0.110.20624081,,1
+VMware.Sdk.vSphere.Appliance.SupportBundle,1.0.110.20624081,,1
+VMware.Sdk.vSphere.Appliance.System,1.0.110.20624081,,1
+VMware.Sdk.vSphere.Appliance.Update,1.0.110.20624081,,1
+VMware.Sdk.vSphere.Cis,1.0.110.20624081,,1
+VMware.Sdk.vSphere.Cis.Tagging,1.0.110.20624081,,1
+VMware.Sdk.vSphere.Content,1.0.110.20624081,,1
+VMware.Sdk.vSphere.ContentLibrary,1.0.110.20624081,,1
+VMware.Sdk.vSphere.Esx.Hcl,1.0.110.20624081,,1
+VMware.Sdk.vSphere.Esx.Hosts,1.0.110.20624081,,1
+VMware.Sdk.vSphere.Esx.Settings,1.0.110.20624081,,1
+VMware.Sdk.vSphere.VAPI.Metadata,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.Authentication,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.CertManagement,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.Content,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.Datastore,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.Deployment,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.Guest,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.Identity,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.Inventory,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.ISO,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.LCM,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.NamespaceManagement,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.Namespaces,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.OVF,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.Services,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.Storage,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.SystemConfig,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.Tagging,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.Topology,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.TrustedInfrastructure,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.VCHA,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.Vm,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vCenter.VmTemplate,1.0.110.20624081,,1
+VMware.Sdk.vSphere.vStats,1.0.110.20624081,,1
+VMware.Sdk.vSphereRuntime,1.0.110.20624081,,1
+VMware.Vim,8.0.1.20797199,,1
+VMware.VimAutomation.Cis.Core,13.0.0.20797636,,1
+VMware.VimAutomation.Cloud,13.0.0.20809912,,1
+VMware.VimAutomation.Common,13.0.0.20797081,,1
+VMware.VimAutomation.Core,13.0.0.20797821,,1
+VMware.VimAutomation.Hcx,13.0.0.20803747,,1
+VMware.VimAutomation.HorizonView,13.0.0.20685235,,1
+VMware.VimAutomation.License,12.0.0.15939670,,1
+VMware.VimAutomation.Nsxt,13.0.0.20797706,,1
+VMware.VimAutomation.Sdk,13.0.0.20791442,,1
+VMware.VimAutomation.Security,13.0.0.20800625,,1
+VMware.VimAutomation.Srm,12.7.0.20091290,,1
+VMware.VimAutomation.Storage,13.0.0.20797966,,1
+VMware.VimAutomation.StorageUtility,1.6.0.0,,1
+VMware.VimAutomation.Vds,13.0.0.20803944,,1
+VMware.VimAutomation.Vmc,13.0.0.20797723,,1
+VMware.VimAutomation.vROps,12.5.0.19167825,,1
+VMware.VimAutomation.WorkloadManagement,12.4.0.18627055,,1
+VMware.VumAutomation,12.7.0.20091294,,1
+VMware.PowerCLI,13.0.0.20829139,vmware-powercli-psmodule,1
+VMware.Sdk.Nsx.Policy,4.0.0.20829136,,1

@@ -235,7 +235,7 @@ def StorePackageReference(programs):
         writer = csv.writer(file)
         writer.writerow(fields)
         for program in toBeStored:
-            writer.writerow(program)
+            writer.writerow(list(program.values()))
 
 #Get information about a specific package that had been stored in PackageReference.csv
 def GetStoredPackage(program):
